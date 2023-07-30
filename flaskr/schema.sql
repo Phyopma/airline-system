@@ -11,7 +11,7 @@ CREATE TABLE user (
   password TEXT NOT NULL,
   firstname TEXT NOT NULL,
   lastname TEXT NOT NULL,
-  role TEXT NOT NULL
+  role TEXT NOT NULL DEFAULT 'customer'
 );
 
 CREATE TABLE airline (
