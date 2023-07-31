@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %} {% endblock %} {% block content %}
+<h1>List of airlines</h1>
+<ul>
+  {% for airline in airlines %}
+  <li>
+    {{ airline['name'] }}
+    <form
+      action="{{ url_for('super-admin.delete_airline', id=airline['id']) }}"
+      method="post"
+    >
+      <input
+        class="danger"
+        type="submit"
+        value="Delete"
+        onclick="return confirm('Are you sure?');"
+      />
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+<form action="/super-admin/airlines/new" method="post">
+  <label for="airline_name">Airline Name</label>
+  <input name="airline_name" id="airline_name" required />
+  <label for="email">Email</label>
+  <input name="email" id="email" required />
+
+  <input type="submit" value="Create" />
+</form>
+{% endblock %}
