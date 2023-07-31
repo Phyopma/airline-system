@@ -45,6 +45,12 @@ def create_airline():
                 "INSERT INTO airline (name, admin_id) VALUES (?, ?)",
                 (airline_name, user['id']),
             )
+
+            db.execute(
+                'UPDATE user SET role = ? WHERE id = ?',
+                ('admin', user['id'])
+            )
+
             db.commit()
         except db.IntegrityError:
             error = "Error when creating airline"
@@ -61,8 +67,17 @@ def delete_airline(id):
     error = None
     db = get_db()
 
+    admin_id = db.execute(
+        'SELECT admin_id FROM airline WHERE id = ?', (id,)
+    ).fetchone()['admin_id']
+
     db.execute(
         'DELETE FROM airline WHERE id = ?', (id,)
+    )
+
+    db.execute(
+        'UPDATE user SET role = ? WHERE id = ?',
+        ('customer', admin_id)
     )
 
     db.commit()
