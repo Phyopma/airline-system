@@ -33,8 +33,9 @@ CREATE TABLE flight (
     destination_city_id INTEGER NOT NULL,
     total_seats INTEGER NOT NULL,
     available_seats INTEGER NOT NULL,
-    departure_time TEXT NOT NULL,
+    departure_time TIMESTAMP NOT NULL,
     duration TEXT NOT NULL,
+    price REAL NOT NULL,
     FOREIGN KEY (airline_id) REFERENCES airline (id),
     FOREIGN KEY (origin_city_id) REFERENCES city (id),
     FOREIGN KEY (destination_city_id) REFERENCES city (id)
@@ -53,7 +54,7 @@ CREATE TABLE booking (
     passenger_id INTEGER NOT NULL,
     flight_id INTEGER NOT NULL,
     seat_id INTEGER NOT NULL,
-    booked_at TEXT NOT NULL,
+    booked_at TIMESTAMP NOT NULL,
     FOREIGN KEY (passenger_id) REFERENCES user (id),
     FOREIGN KEY (flight_id) REFERENCES flight (id),
     FOREIGN KEY (seat_id) REFERENCES seat (id)
