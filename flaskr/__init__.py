@@ -5,6 +5,7 @@ from flaskr.auth.routes import auth_bp
 from flaskr.super_admin.routes import super_admin_bp
 from flaskr.flight.routes import flight_bp
 from flaskr.city.routes import city_bp
+from flask_sqlalchemy import SQLAlchemy
 
 
 def internal_server_error(e):
@@ -12,11 +13,15 @@ def internal_server_error(e):
 
 
 def create_app(test_config=None):
+    db = SQLAlchemy()
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + \
+        app.config['DATABASE']
+    db.init_app(app)
 
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)

@@ -7,7 +7,7 @@ from pydantic import ValidationError
 
 from flaskr.db import get_db
 
-from flaskr.city.city_model import City
+from flaskr.city.model import City_create
 
 city_bp = Blueprint('cities', __name__, url_prefix='/cities')
 
@@ -21,7 +21,6 @@ def get_all_cities():
         'SELECT * FROM city'
     ).fetchall()
 
-    print(cities[0].name)
     return render_template('/index.html', cities=cities)
 
 
@@ -33,39 +32,38 @@ def create_city():
     error = None
 
     try:
-        validated_city = City(**data)
+        validated_city = City_create(**data)
     except ValidationError as e:
         error = e.errors()
         flash(error, "validation")
         return redirect(url_for("cities.get_all_cities"))
 
     try:
-        db.execute('''INSERT INTO city (name) VALUES (?)''',
-                   (validated_city.name))
+        db.execute("INSERT INTO city (name,) VALUES (?,)",
+                   (validated_city,))
         db.commit()
     except Exception as e:
-        print(e)
         abort(500)
     return redirect(url_for("cities.get_all_cities"))
 
 
-# @city_bp.route('/<int:id>/delete', methods=['POST'])
-# def delete_city(id):
-#     error = None
-#     db = get_db()
+@city_bp.route('/<int:id>/delete', methods=['POST'])
+def delete_city(id):
+    error = None
+    db = get_db()
 
-#     try:
-#         db.execute(
-#             'DELETE FROM airline WHERE id = ?', (id,)
-#         )
+    try:
+        db.execute(
+            'DELETE FROM city WHERE id = ?', (id,)
+        )
 
-#     # db.execute(
-#     #     'UPDATE user SET role = ? WHERE id = ?',
-#     #     ('customer', admin_id)
-#     # )
+    # db.execute(
+    #     'UPDATE user SET role = ? WHERE id = ?',
+    #     ('customer', admin_id)
+    # )
 
-#         db.commit()
-#     except:
-#         abort(500)
+        db.commit()
+    except:
+        abort(500)
 
-#     return redirect(url_for("cities.get_all_cities"))
+    return redirect(url_for("cities.get_all_cities"))
