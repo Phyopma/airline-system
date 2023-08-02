@@ -1,15 +1,10 @@
-from pydantic import BaseModel
 from flask_sqlalchemy import SQLAlchemy
+from flaskr.db import get_db
 import sqlalchemy as sa
 
-
-db = SQLAlchemy()
-
-
-class City_create(BaseModel):
-    name: str
+db = get_db()
 
 
 class City(db.Model):
-    id = sa.Column(sa.Integer, primary_key=True, unique=True)
-    name = sa.Column(sa.String(40))
+    id = db.Column(sa.Integer, primary_key=True, unique=True)
+    name = db.Column(sa.String(40))

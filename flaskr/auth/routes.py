@@ -20,7 +20,6 @@ def register():
 
         db = get_db()
         error = None
-
         if not firstname:
             error = 'First Name is required.'
         elif not lastname:
