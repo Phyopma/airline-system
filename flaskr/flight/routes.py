@@ -6,9 +6,8 @@ from datetime import datetime
 
 from pydantic import ValidationError
 
-from flaskr.db import get_db
 
-from flaskr.flight.flight_model import Flight
+from flaskr.models import Flight
 
 flight_bp = Blueprint('flights', __name__, url_prefix='/flights')
 

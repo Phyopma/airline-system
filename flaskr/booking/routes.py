@@ -8,7 +8,7 @@ from pydantic import ValidationError
 
 from flaskr.db import get_db
 
-from flaskr.booking.booking_model import Booking
+from flaskr.models import Booking
 
 booking_bp = Blueprint('bookings', __name__, url_prefix='/bookings')
 

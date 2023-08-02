@@ -2,7 +2,6 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 
-from flaskr.db import get_db
 
 super_admin_bp = Blueprint('super-admin', __name__, url_prefix='/super-admin')
 

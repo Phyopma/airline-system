@@ -5,7 +5,6 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from flaskr.db import get_db
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -18,7 +17,6 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
-        db = get_db()
         error = None
         if not firstname:
             error = 'First Name is required.'
@@ -51,7 +49,6 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        db = get_db()
         error = None
         user = db.execute(
             'SELECT * FROM user WHERE email = ?', (email,)
