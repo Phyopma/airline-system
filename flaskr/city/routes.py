@@ -6,9 +6,7 @@ from sqlalchemy import select
 
 from pydantic import ValidationError
 
-from flaskr.db import db_session
-
-from flaskr.models import City
+from flaskr.models import db, City
 
 city_bp = Blueprint('cities', __name__, url_prefix='/cities')
 
@@ -16,8 +14,7 @@ city_bp = Blueprint('cities', __name__, url_prefix='/cities')
 @city_bp.get('/')
 def get_all_cities():
     error = None
-
-    cities = db_session.execute(select(City))
+    cities = db.session.execute(select(City))
     return render_template('/index.html', cities=cities)
 
 
@@ -27,8 +24,8 @@ def create_city():
     error = None
     try:
         new_city = City(**data)
-        db_session.add(new_city)
-        db_session.commit()
+        db.session.add(new_city)
+        db.session.commit()
     except Exception as e:
         print("errors", e)
         abort(500)
@@ -40,9 +37,8 @@ def delete_city(id):
     error = None
 
     try:
-
-        db_session.delete(db_session.get(City, id))
-        db_session.commit()
+        db.session.delete(db.get_or_404(City, id))
+        db.session.commit()
 
     except Exception as e:
         print(e)

@@ -1,69 +1,69 @@
-from flask import (
-    abort, Blueprint, flash, g, redirect, render_template, request, url_for
-)
+# from flask import (
+#     abort, Blueprint, flash, g, redirect, render_template, request, url_for
+# )
 
-from datetime import datetime
+# from datetime import datetime
 
-from pydantic import ValidationError
+# from pydantic import ValidationError
 
-from flaskr.db import get_db
+# from flaskr.db import get_db
 
-from flaskr.models import Booking
+# from flaskr.models import Booking
 
-booking_bp = Blueprint('bookings', __name__, url_prefix='/bookings')
-
-
-@booking_bp.get('/')
-def get_all_bookings():
-    error = None
-    db = get_db()
-
-    bookings = db.execute(
-        'SELECT * FROM booking'
-    ).fetchall()
-    return render_template('/index.html', bookings=bookings)
+# booking_bp = Blueprint('bookings', __name__, url_prefix='/bookings')
 
 
-@booking_bp.post('/new')
-def create_airline():
-    data = request.form.to_dict()
+# @booking_bp.get('/')
+# def get_all_bookings():
+#     error = None
+#     db = get_db()
 
-    db = get_db()
-    error = None
-
-    try:
-        validated_booking = Booking(**data)
-    except ValidationError as e:
-        error = e.errors()
-        flash(error, "validation")
-        return redirect(url_for("bookings.get_all_bookings"))
-
-    try:
-        db.execute(
-            "INSERT INTO booking (passenger_id, flight_id, seat_id, booked_at) VALUES (?, ?, ?, ? ) ", (validated_booking))
-        db.commit()
-    except:
-        abort(500)
-    return redirect(url_for("bookings.get_all_bookings"))
+#     bookings = db.execute(
+#         'SELECT * FROM booking'
+#     ).fetchall()
+#     return render_template('/index.html', bookings=bookings)
 
 
-@booking_bp.route('/<int:id>/delete', methods=['POST'])
-def delete_flight(id):
-    error = None
-    db = get_db()
+# @booking_bp.post('/new')
+# def create_airline():
+#     data = request.form.to_dict()
 
-    try:
-        db.execute(
-            'DELETE FROM airline WHERE id = ?', (id,)
-        )
+#     db = get_db()
+#     error = None
 
-    # db.execute(
-    #     'UPDATE user SET role = ? WHERE id = ?',
-    #     ('customer', admin_id)
-    # )
+#     try:
+#         validated_booking = Booking(**data)
+#     except ValidationError as e:
+#         error = e.errors()
+#         flash(error, "validation")
+#         return redirect(url_for("bookings.get_all_bookings"))
 
-        db.commit()
-    except:
-        abort(500)
+#     try:
+#         db.execute(
+#             "INSERT INTO booking (passenger_id, flight_id, seat_id, booked_at) VALUES (?, ?, ?, ? ) ", (validated_booking))
+#         db.commit()
+#     except:
+#         abort(500)
+#     return redirect(url_for("bookings.get_all_bookings"))
 
-    return redirect(url_for("bookings.get_all_bookings"))
+
+# @booking_bp.route('/<int:id>/delete', methods=['POST'])
+# def delete_flight(id):
+#     error = None
+#     db = get_db()
+
+#     try:
+#         db.execute(
+#             'DELETE FROM airline WHERE id = ?', (id,)
+#         )
+
+#     # db.execute(
+#     #     'UPDATE user SET role = ? WHERE id = ?',
+#     #     ('customer', admin_id)
+#     # )
+
+#         db.commit()
+#     except:
+#         abort(500)
+
+#     return redirect(url_for("bookings.get_all_bookings"))
