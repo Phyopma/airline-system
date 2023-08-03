@@ -17,9 +17,6 @@ city_bp = Blueprint('cities', __name__, url_prefix='/cities')
 def get_all_cities():
     error = None
 
-    # cities = db.execute(
-    #     'SELECT * FROM city'
-    # return render_template('/index.html', cities=cities)
     cities = db_session.execute(select(City))
     return render_template('/index.html', cities=cities)
 
@@ -38,23 +35,17 @@ def create_city():
     return redirect(url_for("cities.get_all_cities"))
 
 
-# @city_bp.route('/<int:id>/delete', methods=['POST'])
-# def delete_city(id):
-#     error = None
-#     db = get_db()
+@city_bp.route('/<int:id>/delete', methods=['POST'])
+def delete_city(id):
+    error = None
 
-#     try:
-#         db.execute(
-#             'DELETE FROM city WHERE id = ?', (id,)
-#         )
+    try:
 
-#     # db.execute(
-#     #     'UPDATE user SET role = ? WHERE id = ?',
-#     #     ('customer', admin_id)
-#     # )
+        db_session.delete(db_session.get(City, id))
+        db_session.commit()
 
-#         db.commit()
-#     except:
-#         abort(500)
+    except Exception as e:
+        print(e)
+        abort(500)
 
-#     return redirect(url_for("cities.get_all_cities"))
+    return redirect(url_for("cities.get_all_cities"))
