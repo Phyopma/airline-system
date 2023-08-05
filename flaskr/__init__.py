@@ -39,6 +39,11 @@ app.register_error_handler(500, internal_server_error)
 # app.cli.add_command(init_db_command)
 
 
+@app.route("/")
+def index():
+    return render_template('index.html')
+
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db.session.flush()

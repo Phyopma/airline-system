@@ -2,16 +2,36 @@
   {% extends 'base.html' %} {% block header %}
   <h1>{% block title %}Register{% endblock %}</h1>
   {% endblock %} {% block content %}
-  <form method="post">
-    <label for="firstname">First Name</label>
-    <input name="firstname" id="firstname" required />
-    <label for="lastname">Last Name</label>
-    <input name="lastname" id="lastname" required />
-    <label for="email">Email</label>
-    <input name="email" id="email" required />
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" required />
-    <input type="submit" value="Register" />
-  </form>
+  <div class="wrap">
+    <div class="loginContent">
+      <div id="logo">
+        <h2>
+          ALBERT <br />
+          ENTERPRISE
+        </h2>
+      </div>
+      <div class="namedetail">
+        <span> <input type="text" placeholder="Forename" /> </span>
+        <span>
+          <input type="text" placeholder="Surname" />
+        </span>
+      </div>
+      <div class="userdetail">
+        <input type="text" placeholder="Email" />
+      </div>
+      <div class="userdetail">
+        <input type="password" placeholder="Password" />
+      </div>
+      <div class="userdetail">
+        <input type="password" placeholder="Re-enter Password" />
+      </div>
+      <br />
+      <span id="logo">
+        <!-- <a class="active" href="#loginhere">Sign up</a><br /> -->
+        <button>Sign Up</button>
+      </span>
+      <br />
+    </div>
+  </div>
   {% endblock %}
 </div>

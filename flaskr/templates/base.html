@@ -1,8 +1,22 @@
 <!DOCTYPE html>
 <title>{% block title %}{% endblock %} - Flaskr</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='base_style.css') }}"
+/>
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='login_style.css') }}"
+/>
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='login_style.css') }}"
+/>
+
 <nav>
-  <h1>Airline Reservation System</h1>
+  <!-- <h1>Airline Reservation System</h1>
   {% if g.user %}
   <span>Hello <strong>{{ g.user['firstname'] }}</strong></span>
   <ul>
@@ -18,11 +32,25 @@
       <a href="{{ url_for('auth.login') }}">Log In</a>
       {% endif %}
     </li>
-  </ul>
+  </ul> -->
+  <h2>
+    ALBERT <br />
+    ENTERPRISE
+  </h2>
+  <div class="topnav">
+    <b>ALBERT AIRLINE</b>
+    <a class="login" href="{{ url_for('auth.login') }}">Log in</a>
+    <a class="active" href="#About">About</a>
+    <a class="active" href="#ContactUs">Contact Us</a>
+    <a class="active" href="bookflight.html">Home</a>
+  </div>
 </nav>
-<section class="content">
+<section class="main_container">
   <header>{% block header %}{% endblock %}</header>
   {% for message in get_flashed_messages() %}
   <div class="flash">{{ message }}</div>
   {% endfor %} {% block content %}{% endblock %}
 </section>
+<footer>
+  <h6>powered by albert enterprise.</h6>
+</footer>

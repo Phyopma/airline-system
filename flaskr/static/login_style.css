@@ -1,0 +1,116 @@
+.wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.loginContent {
+  display: flex;
+
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 550px;
+  width: 500px;
+  border-radius: 10px;
+  background-color: white;
+  opacity: 95%;
+}
+
+.loginContent #log_in_buttom {
+  width: 75px;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: double;
+  font-size: 15px;
+}
+
+.signupLink {
+  width: 75px;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: double;
+}
+
+.signupLink.active {
+  background-color: #2a9df1;
+  color: white;
+}
+
+.loginContent a.hover {
+  background-color: white;
+  color: black;
+  text-decoration: none;
+}
+
+.loginContent #logo a {
+  width: auto;
+  border-radius: 10px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.loginContent .dirsignup a {
+  padding: 0;
+  margin: 0;
+}
+
+.loginContent .userdetail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: auto;
+  background-color: whitesmoke;
+  opacity: 80%;
+}
+
+.loginContent input[type='text'] {
+  width: 400px;
+  height: 50px;
+  text-align: center;
+  background-color: whitesmoke;
+  border: 300px;
+  font-size: large;
+  border-radius: 10px;
+}
+
+.loginContent input[type='password'] {
+  width: 400px;
+  height: 50px;
+  text-align: center;
+  background-color: whitesmoke;
+  border: 300px;
+  font-size: large;
+  border-radius: 10px;
+}
+
+.loginContent .namedetail input[type='text'] {
+  width: 193px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+}
+
+button {
+  color: white;
+  border-radius: 10px;
+  background-color: #2a9df1;
+  width: 100px;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: double;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.namedetail {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: white;
+  opacity: 95%;
+}
