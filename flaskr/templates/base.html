@@ -2,18 +2,15 @@
 <title>{% block title %}{% endblock %} - Flaskr</title>
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='base_style.css') }}"
-/>
+  href="{{ url_for('static', filename='base_style.css') }}" />
 
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='login_style.css') }}"
-/>
+  href="{{ url_for('static', filename='login_style.css') }}" />
 
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='login_style.css') }}"
-/>
+  href="{{ url_for('static', filename='login_style.css') }}" />
 
 <nav>
   <!-- <h1>Airline Reservation System</h1>
@@ -39,7 +36,11 @@
   </h2>
   <div class="topnav">
     <b>ALBERT AIRLINE</b>
+    {% if g.user == None %}
     <a class="login" href="{{ url_for('auth.login') }}">Log in</a>
+    {% else %}
+    <a href="{{ url_for('auth.logout')}}" class="login">{{g.user.firstname}}</a>
+    {% endif %}
     <a class="active" href="#About">About</a>
     <a class="active" href="#ContactUs">Contact Us</a>
     <a class="active" href="bookflight.html">Home</a>

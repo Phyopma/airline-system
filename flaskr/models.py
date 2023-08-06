@@ -10,18 +10,18 @@ class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True,
                    autoincrement=True, unique=True)
-    email = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(50), nullable=False)
     firstname = db.Column(db.String(20), nullable=False)
     secondname = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(150), nullable=False)
     role = db.Column(db.String(20), nullable=False, default="customer")
     bookings = db.relationship('Booking', back_populates='user')
 
-    def __init__(self, email, password, first, second, role):
+    def __init__(self, email, password, firstname, secondname, role='customer'):
         self.email = email
         self.password = password
-        self.firstname = first
-        self.secondname = second
+        self.firstname = firstname
+        self.secondname = secondname
         self.role = role
 
     def __repr__(self):

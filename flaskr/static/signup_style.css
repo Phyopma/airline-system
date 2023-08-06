@@ -1,6 +1,6 @@
 /* For background cover */
 body {
-  background-image: url('bg_1.jpeg');
+  background-image: url("bg_1.jpeg");
   height: 100%;
   background-repeat: no-repeat;
   background-position: top;
@@ -142,7 +142,7 @@ h6 {
   opacity: 80%;
 }
 
-.content input[type='text'] {
+.content input[type="text"] {
   width: 400px;
   height: 50px;
   text-align: center;
@@ -152,13 +152,13 @@ h6 {
   border-radius: 10px;
 }
 
-.content .namedetail input[type='text'] {
+.content .namedetail input[type="text"] {
   width: 193px;
   background-color: whitesmoke;
   border-radius: 10px;
 }
 
-.content input[type='password'] {
+.content input[type="password"] {
   width: 400px;
   height: 50px;
   text-align: center;

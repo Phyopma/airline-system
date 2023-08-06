@@ -10,7 +10,7 @@ def internal_server_error(e):
 
 app = Flask(__name__, instance_relative_config=True)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
-
+app.secret_key = 'gg_project'
 
 with app.app_context():
     from flaskr.models import db

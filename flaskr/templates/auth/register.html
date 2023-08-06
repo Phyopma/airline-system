@@ -10,27 +10,42 @@
           ENTERPRISE
         </h2>
       </div>
-      <div class="namedetail">
-        <span> <input type="text" placeholder="Forename" /> </span>
-        <span>
-          <input type="text" placeholder="Surname" />
-        </span>
-      </div>
-      <div class="userdetail">
-        <input type="text" placeholder="Email" />
-      </div>
-      <div class="userdetail">
-        <input type="password" placeholder="Password" />
-      </div>
-      <div class="userdetail">
-        <input type="password" placeholder="Re-enter Password" />
-      </div>
-      <br />
-      <span id="logo">
+      <!-- {% if not error == None %} -->
+      <span>{{error}}</span>
+      <!-- {% endif %} -->
+      <form
+        id="register_form"
+        action="{{ url_for('auth.register')}}"
+        method="post">
+        <div class="namedetail">
+          <span
+            ><input name="firstname" type="text" placeholder="First Name"
+          /></span>
+          <span
+            ><input name="secondname" type="text" placeholder="Surname"
+          /></span>
+        </div>
+        <div class="userdetail">
+          <input name="email" type="text" placeholder="Email" />
+        </div>
+
+        <div class="userdetail">
+          <input name="password" type="password" placeholder="Password" />
+        </div>
+
+        <div class="userdetail">
+          <input
+            name="re-password"
+            type="password"
+            placeholder="Re-enter Password" />
+        </div>
         <!-- <a class="active" href="#loginhere">Sign up</a><br /> -->
-        <button>Sign Up</button>
-      </span>
-      <br />
+        <span id="logo">
+          <button type="submit">Sign Up</button>
+        </span>
+
+        <br />
+      </form>
     </div>
   </div>
   {% endblock %}

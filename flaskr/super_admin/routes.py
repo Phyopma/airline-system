@@ -2,6 +2,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 
+from flaskr.models import db, User, AirLine
 
 super_admin_bp = Blueprint('super-admin', __name__, url_prefix='/super-admin')
 
@@ -9,8 +10,8 @@ super_admin_bp = Blueprint('super-admin', __name__, url_prefix='/super-admin')
 @super_admin_bp.route('/airlines', methods=["GET"])
 def get_all_airlines():
     error = None
-    db = get_db()
 
+    airlines = db
     airlines = db.execute(
         'SELECT * FROM airline'
     ).fetchall()
