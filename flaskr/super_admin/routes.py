@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-
+from datetime import datetime
 from flaskr.models import db, User, AirLine
 from sqlalchemy import select, update, delete
 
@@ -21,7 +21,6 @@ def get_all_airlines():
 def create_airline():
     airline_name = request.form['airline_name']
     email = request.form['email']
-
     error = None
 
     if not airline_name:

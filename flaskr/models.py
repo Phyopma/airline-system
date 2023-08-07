@@ -124,11 +124,11 @@ class Booking(db.Model):
     # flight = db.relationship('Flight', back_populates='booking')
     # seat = db.relationship('Seat', back_populates='booking')
 
-    def __init__(self, user_id, flight_id, seat_id, booked_at):
+    def __init__(self, user_id, flight_id, seat_id):
         self.user_id = user_id
         self.flight_id = flight_id
         self.seat_id = seat_id
-        self.booked_at = booked_at
+        self.booked_at = datetime.now()
 
     def __repr__(self):
         return f'<Booking {self.flight, self.seat, self.user!r}>'
