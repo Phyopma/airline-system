@@ -7,7 +7,7 @@ from datetime import datetime
 from pydantic import ValidationError
 
 
-from flaskr.models import Flight, db
+from flaskr.models import Flight, db, City
 
 from sqlalchemy import select
 
@@ -40,6 +40,26 @@ def get_flights_by_airline_id(airline_id):
         abort(500)
 
     return render_template('/index.html', flights=flights)
+
+
+@flight_bp.get('/search')
+def search_flights():
+    origin = request.args.get('origin')
+    destination = request.args.get('destination')
+    passengers = request.args.get('passengers')
+
+    error = None
+
+    try:
+        searched_flights = db.session.execute(select(Flight).filter(
+            Flight.origin_city_id == origin, Flight.destination_city_id == destination, Flight.available_seats >= passengers)).scalars().all()
+        for i in searched_flights:
+            print(i)
+    except Exception as e:
+        error = e
+        print(e)
+        abort(500)
+    return render_template('/index.html', flights=search_flights)
 
 
 @flight_bp.post('/new')

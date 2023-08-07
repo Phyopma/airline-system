@@ -8,10 +8,13 @@ from pydantic import ValidationError
 
 from flaskr.models import db, City
 
+from flaskr.auth.routes import login_required, admin_required
+
 city_bp = Blueprint('cities', __name__, url_prefix='/cities')
 
 
 @city_bp.get('/')
+@admin_required
 def get_all_cities():
     error = None
     cities = db.session.execute(select(City))
