@@ -1,0 +1,28 @@
+super-admin
+    /airlines
+    /airlines/new
+    /airlines/{id}/delete
+
+auth
+    /register
+    /login
+    /logout
+
+
+cities
+    /
+    /new
+    /{id}/delete
+
+flights
+    /
+    /{airline_id}/
+    /search
+    /new
+    /{id}/delete
+
+
+bookings
+    /
+    /new
+    /{id}/delete

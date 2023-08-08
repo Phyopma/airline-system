@@ -101,14 +101,13 @@ class Seat(db.Model):
     is_occupied = db.Column(db.Boolean, default=False)
     flight = db.relationship('Flight', back_populates='seats')
 
-    def __init__(self, flight_id, seat_number, is_occupied, flight):
+    def __init__(self, flight_id, seat_number):
+        self.is_occupied = False
         self.flight_id = flight_id
         self.seat_number = seat_number
-        self.is_occupied = is_occupied
-        self.flight = flight
 
     def __repr__(self):
-        return f'<Seat {self.seat_number, self.flight!r}>'
+        return f'<Seat {self.seat_number, self.flight_id!r}>'
 
 
 class Booking(db.Model):

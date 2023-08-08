@@ -97,3 +97,14 @@ def admin_required(view):
             abort(401)
         return view(**kwargs)
     return wrapped_view
+
+
+def super_admin_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+        if g.user.role == 'super-admin':
+            abort(401)
+        return view(**kwargs)
+    return wrapped_view

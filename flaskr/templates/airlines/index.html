@@ -5,7 +5,7 @@
   <li>
     {{ airline['name'] }}
     <form
-      action="{{ url_for('super-admin.delete_airline', id=airline['id']) }}"
+      action="{{ url_for('airlines.delete_airline', id=airline['id']) }}"
       method="post">
       <input
         class="danger"
@@ -16,7 +16,7 @@
   </li>
   {% endfor %}
 </ul>
-<form action="/super-admin/airlines/new" method="post">
+<form action="/airlines/new" method="post">
   <label for="airline_name">Airline Name</label>
   <input name="airline_name" id="airline_name" required />
   <label for="email">Email</label>

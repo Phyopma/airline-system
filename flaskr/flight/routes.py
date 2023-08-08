@@ -4,12 +4,12 @@ from flask import (
 
 from datetime import datetime
 
-from pydantic import ValidationError
+from flaskr.seat.routes import create_seats, delete_seats
 
 
 from flaskr.models import Flight, db, City
 
-from sqlalchemy import select
+from sqlalchemy import select, insert, delete
 
 
 flight_bp = Blueprint('flights', __name__, url_prefix='/flights')
@@ -53,8 +53,6 @@ def search_flights():
     try:
         searched_flights = db.session.execute(select(Flight).filter(
             Flight.origin_city_id == origin, Flight.destination_city_id == destination, Flight.available_seats >= passengers)).scalars().all()
-        for i in searched_flights:
-            print(i)
     except Exception as e:
         error = e
         print(e)
@@ -63,7 +61,7 @@ def search_flights():
 
 
 @flight_bp.post('/new')
-def create_airline():
+def create_flight():
     data = request.form.to_dict()
     data['available_seats'] = data['total_seats']
     data['departure_time'] = datetime(2024, 12, 10, 5, 30)
@@ -73,6 +71,8 @@ def create_airline():
         new_flight = Flight(**data)
         db.session.add(new_flight)
         db.session.commit()
+        # print(new_flight.id)
+        create_seats(new_flight.id, new_flight.total_seats)
 
     except Exception as e:
         print(e)
@@ -86,7 +86,8 @@ def delete_flight(id):
 
     try:
         flight = db.get_or_404(Flight, id)
-        db.session.delete(flight_bp)
+        db.session.delete(flight)
+        delete_seats(id)
         db.session.commit()
     except Exception as e:
         print(e)

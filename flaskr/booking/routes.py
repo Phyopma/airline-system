@@ -10,6 +10,8 @@ from sqlalchemy import select, delete
 
 from flaskr.models import Booking, db, User, Flight, AirLine
 
+from flaskr.seat.routes import update_seat, create_seats
+
 from flaskr.auth.routes import login_required
 booking_bp = Blueprint('bookings', __name__, url_prefix='/bookings')
 
@@ -43,16 +45,19 @@ def get_bookings_by_flight_id(flight_id):
 
 
 @booking_bp.post('/new')
-# @login_required
+@login_required
 def create_booking():
     data = request.form.to_dict()
 
     data['user_id'] = g.user.id
+    flight_id = data['flight_id']
+    seat_id = data['seat_id']
     error = None
 
     try:
         new_booking = Booking(**data)
         db.session.add(new_booking)
+        update_seat(seat_id, flight_id, True)
         db.session.commit()
     except Exception as e:
         print(e)
@@ -67,11 +72,6 @@ def delete_booking(booking_id):
     try:
         db.session.execute(delete(Booking).where(Booking.id == booking_id))
         db.session.commit()
-
-    # db.execute(
-    #     'UPDATE user SET role = ? WHERE id = ?',
-    #     ('customer', admin_id)
-    # )
 
     except Exception as e:
         error = e

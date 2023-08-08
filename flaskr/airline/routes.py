@@ -5,19 +5,19 @@ from datetime import datetime
 from flaskr.models import db, User, AirLine
 from sqlalchemy import select, update, delete
 
-super_admin_bp = Blueprint('super-admin', __name__, url_prefix='/super-admin')
+airline_bp = Blueprint('airlines', __name__, url_prefix='/airlines')
 
 
-@super_admin_bp.route('/airlines', methods=["GET"])
+@airline_bp.route('/', methods=["GET"])
 def get_all_airlines():
     error = None
 
     airlines = db.session.execute(select(AirLine)).scalars().all()
 
-    return render_template('super_admin/airlines/index.html', airlines=airlines)
+    return render_template('/index.html', airlines=airlines)
 
 
-@super_admin_bp.route('/airlines/new', methods=['POST'])
+@airline_bp.route('/new', methods=['POST'])
 def create_airline():
     airline_name = request.form['airline_name']
     email = request.form['email']
@@ -50,14 +50,14 @@ def create_airline():
             print(e)
             error = "Error when creating airline"
         else:
-            return redirect(url_for("super-admin.get_all_airlines"))
+            return redirect(url_for("airlines.get_all_airlines"))
 
     flash(error)
 
-    return redirect(url_for("super-admin.get_all_airlines"))
+    return redirect(url_for("airlines.get_all_airlines"))
 
 
-@super_admin_bp.route('/airlines/<int:id>/delete', methods=['POST'])
+@airline_bp.route('/<int:id>/delete', methods=['POST'])
 def delete_airline(id):
     error = None
 
@@ -77,4 +77,4 @@ def delete_airline(id):
 
     flash(error)
 
-    return redirect(url_for("super-admin.get_all_airlines"))
+    return redirect(url_for("airlines.get_all_airlines"))
