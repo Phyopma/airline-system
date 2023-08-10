@@ -4,8 +4,6 @@ from flask import (
 
 from sqlalchemy import select
 
-from pydantic import ValidationError
-
 from flaskr.models import db, City
 
 from flaskr.auth.routes import login_required, admin_required, super_admin_required

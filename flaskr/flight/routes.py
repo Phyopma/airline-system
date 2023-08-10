@@ -47,22 +47,21 @@ def get_flights_by_airline_id():
     return render_template('/index.html', flights=flights)
 
 
-@flight_bp.get('/search')
+@flight_bp.route('/search', methods=['GET', 'POST'])
 def search_flights():
-    origin = request.args.get('origin')
-    destination = request.args.get('destination')
-    passengers = request.args.get('passengers')
+    if request.method == 'POST':
+        data = request.form.to_dict()
 
-    error = None
+        error = None
 
-    try:
-        searched_flights = db.session.execute(select(Flight).filter(
-            Flight.origin_city_id == origin, Flight.destination_city_id == destination, Flight.available_seats >= passengers)).scalars().all()
-    except Exception as e:
-        error = e
-        print(e)
-        abort(500)
-    return render_template('/index.html', flights=search_flights)
+        try:
+            searched_flights = db.session.execute(select(Flight).filter(
+                Flight.origin_city_id == data['origin'], Flight.destination_city_id == data['destination'], Flight.available_seats >= data['num_passengers'])).scalars().all()
+        except Exception as e:
+            error = e
+            print(e)
+            abort(500)
+    return render_template('/flights/search.html', flights=search_flights)
 
 
 @flight_bp.post('/new')

@@ -4,8 +4,6 @@ from flask import (
 
 from datetime import datetime
 
-from pydantic import ValidationError
-
 from sqlalchemy import select, delete
 
 from flaskr.models import Booking, db, User, Flight, AirLine
