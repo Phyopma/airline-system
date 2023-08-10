@@ -4,11 +4,13 @@ from flask import (
 from datetime import datetime
 from flaskr.models import db, User, AirLine
 from sqlalchemy import select, update, delete
+from flaskr.auth.routes import super_admin_required, admin_required, login_required
 
 airline_bp = Blueprint('airlines', __name__, url_prefix='/airlines')
 
 
 @airline_bp.route('/', methods=["GET"])
+@super_admin_required
 def get_all_airlines():
     error = None
 
@@ -18,6 +20,7 @@ def get_all_airlines():
 
 
 @airline_bp.route('/new', methods=['POST'])
+@super_admin_required
 def create_airline():
     airline_name = request.form['airline_name']
     email = request.form['email']
@@ -58,6 +61,7 @@ def create_airline():
 
 
 @airline_bp.route('/<int:id>/delete', methods=['POST'])
+@super_admin_required
 def delete_airline(id):
     error = None
 

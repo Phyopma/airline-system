@@ -12,7 +12,7 @@ from flaskr.models import Booking, db, User, Flight, AirLine
 
 from flaskr.seat.routes import update_seat, create_seats
 
-from flaskr.auth.routes import login_required
+from flaskr.auth.routes import login_required, admin_required, super_admin_required
 booking_bp = Blueprint('bookings', __name__, url_prefix='/bookings')
 
 
@@ -33,6 +33,7 @@ def get_bookings_for_user():
 
 def get_bookings_by_flight_id(flight_id):
     error = None
+
     try:
         bookings = db.session.execute(select(Booking).filter(
             Booking.flight_id == flight_id)).scalars().all()
@@ -66,6 +67,8 @@ def create_booking():
 
 
 @booking_bp.route('/<int:booking_id>/delete', methods=['POST'])
+@login_required
+# admin or super_admin
 def delete_booking(booking_id):
     error = None
 

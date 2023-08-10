@@ -13,18 +13,18 @@ from sqlalchemy import select, delete, update, insert
 seat_bp = Blueprint('seats', __name__, url_prefix='/seats')
 
 
-@seat_bp.get('/<int:flight_id>/')
-def get_all_seats(flight_id):
-    error = None
+# @seat_bp.get('/<int:flight_id>/')
+# def get_all_seats(flight_id):
+#     error = None
 
-    try:
-        seats = db.session.execute(select(Seat).filter(
-            Seat.flight_id == flight_id)).scalars().all()
-    except Exception as e:
-        print(e)
-        abort(500)
+#     try:
+#         seats = db.session.execute(select(Seat).filter(
+#             Seat.flight_id == flight_id, Seat.is_occupied == False)).scalars().all()
+#     except Exception as e:
+#         print(e)
+#         abort(500)
 
-    return render_template('/index.html', seats=seats)
+#     return render_template('/index.html', seats=seats)
 
 
 # @seat_bp.get('/<int:airline_id>/')
@@ -101,6 +101,7 @@ def update_seat(id, flight_id, is_occupied):
         elif not is_occupied and updated_flight.available_seats < 100:
             updated_flight.available_seats = updated_flight.available_seats+1
         db.session.merge(updated_flight)
+        print(updated_flight.available_seats)
         db.session.execute(update(Seat).where(
             Seat.id == id).values(is_occupied=is_occupied))
         db.session.commit()

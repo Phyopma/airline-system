@@ -8,7 +8,7 @@ from pydantic import ValidationError
 
 from flaskr.models import db, City
 
-from flaskr.auth.routes import login_required, admin_required
+from flaskr.auth.routes import login_required, admin_required, super_admin_required
 
 city_bp = Blueprint('cities', __name__, url_prefix='/cities')
 
@@ -22,6 +22,7 @@ def get_all_cities():
 
 
 @city_bp.post('/new')
+@admin_required
 def create_city():
     data = request.form.to_dict()
     error = None
@@ -36,6 +37,7 @@ def create_city():
 
 
 @city_bp.route('/<int:id>/delete', methods=['POST'])
+@admin_required
 def delete_city(id):
     error = None
 
