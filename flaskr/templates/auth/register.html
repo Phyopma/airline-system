@@ -1,9 +1,13 @@
 <div>
-  {% extends 'base.html' %} {% block header %}
-  <h1>{% block title %}Register{% endblock %}</h1>
-  {% endblock %} {% block content %}
+  {% extends 'base.html' %} {% block header %} {% endblock %} {% block content
+  %}
   <div class="wrap">
-    <div class="loginContent">
+    <form
+      class="loginContent"
+      id="register_form"
+      action="{{ url_for('auth.register')}}"
+      method="post"
+    >
       <div id="logo">
         <h2>
           ALBERT <br />
@@ -13,40 +17,44 @@
       <!-- {% if not error == None %} -->
       <span>{{error}}</span>
       <!-- {% endif %} -->
-      <form
-        id="register_form"
-        action="{{ url_for('auth.register')}}"
-        method="post">
-        <div class="namedetail">
-          <span
-            ><input name="firstname" type="text" placeholder="First Name"
-          /></span>
-          <span
-            ><input name="secondname" type="text" placeholder="Surname"
-          /></span>
-        </div>
-        <div class="userdetail">
-          <input name="email" type="text" placeholder="Email" />
-        </div>
+      <div class="namedetail">
+        <input
+          class="userdetail"
+          name="firstname"
+          type="text"
+          placeholder="First Name"
+        />
+        <input
+          class="userdetail"
+          name="secondname"
+          type="text"
+          placeholder="Surname"
+        />
+      </div>
 
-        <div class="userdetail">
-          <input name="password" type="password" placeholder="Password" />
-        </div>
+      <input class="userdetail" name="email" type="text" placeholder="Email" />
 
-        <div class="userdetail">
-          <input
-            name="re-password"
-            type="password"
-            placeholder="Re-enter Password" />
-        </div>
-        <!-- <a class="active" href="#loginhere">Sign up</a><br /> -->
-        <span id="logo">
-          <button type="submit">Sign Up</button>
-        </span>
+      <input
+        class="userdetail"
+        name="password"
+        type="password"
+        placeholder="Password"
+      />
 
-        <br />
-      </form>
-    </div>
+      <input
+        class="userdetail"
+        name="re-password"
+        type="password"
+        placeholder="Re-enter Password"
+      />
+
+      <button type="submit">Sign Up</button>
+
+      <span
+        >Already have an account? Login
+        <a class="signupLink" href="{{ url_for('auth.login') }}">here.</a>
+      </span>
+    </form>
   </div>
   {% endblock %}
 </div>

@@ -1,35 +1,27 @@
-{% extends 'base.html' %} {% block header %}
-<h1>Log In</h1>
-{% endblock %} {% block content %}
+{% extends 'base.html' %} {% block header %} {% endblock %} {% block content %}
 <div class="wrap">
-  <div class="loginContent">
+  <form class="loginContent" action="{{ url_for('auth.login')}}" method="post">
     <div id="logo">
       <h2>
         ALBERT <br />
         ENTERPRISE
       </h2>
     </div>
-    <form action="{{ url_for('auth.login')}}" method="post">
-      <div class="userdetail">
-        <input type="text" placeholder="Email" name="email" /><br />
-      </div>
-      <!-- <br /> -->
-      <div class="userdetail">
-        <input type="password" placeholder="Password" name="password" />
-      </div>
-      <br />
-      <span id="logo">
-        <!-- <a class="active" href="#loginhere">Log in</a><br /> -->
-        <button>Log in</button>
-      </span>
-    </form>
+    <input class="userdetail" type="text" placeholder="Email" name="email" />
+    <input
+      class="userdetail"
+      type="password"
+      placeholder="Password"
+      name="password"
+    />
+    <span id="logo">
+      <button>Log in</button>
+    </span>
     <span
       >New Member? Sign up
-      <span class="dirsignup">
-        <a class="signupLink" href="{{ url_for('auth.register') }}">here.</a>
-      </span>
+      <a class="signupLink" href="{{ url_for('auth.register') }}">here.</a>
     </span>
-    <br />
-  </div>
+  </form>
+  <br />
 </div>
 {% endblock %}
