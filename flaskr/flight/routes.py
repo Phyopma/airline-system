@@ -8,6 +8,8 @@ from flaskr.seat.routes import create_seats, delete_seats
 
 from flaskr.auth.routes import login_required, admin_required, super_admin_required
 
+from flaskr.city.routes import get_all_cities
+
 from flaskr.models import Flight, db, City, AirLine
 
 from sqlalchemy import select, insert, delete
@@ -49,19 +51,24 @@ def get_flights_by_airline_id():
 
 @flight_bp.route('/search', methods=['GET', 'POST'])
 def search_flights():
+    cities = get_all_cities()
+
     if request.method == 'POST':
         data = request.form.to_dict()
-
+        tmp_date = data['departure_time'].replace(
+            'T', '-').replace(':', '-').split('-')
+        year, month, day, hour, minute = map(int, tmp_date)
+        data['departure_time'] = datetime(
+            year, month, day, hour, minute)
         error = None
-
         try:
             searched_flights = db.session.execute(select(Flight).filter(
-                Flight.origin_city_id == data['origin'], Flight.destination_city_id == data['destination'], Flight.available_seats >= data['num_passengers'])).scalars().all()
+                Flight.origin_city_id == data['origin'], Flight.destination_city_id == data['destination'], Flight.available_seats >= data['no_of_seat'], Flight.departure_time >= data['departure_time'],  Flight.departure_time >= data['departure_time'])).scalars().all()
         except Exception as e:
             error = e
             print(e)
             abort(500)
-    return render_template('/flights/search.html', flights=search_flights)
+    return render_template('/flights/search.html', flights=searched_flights, cities=cities)
 
 
 @flight_bp.post('/new')

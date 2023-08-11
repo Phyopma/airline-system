@@ -1,6 +1,6 @@
 /* For background cover */
 body {
-  background-image: url('bg_2.jpeg');
+  background-image: url("bg_2.jpeg");
   height: 100%;
   background-repeat: no-repeat;
   background-position: top;
@@ -93,6 +93,7 @@ h6 {
 }
 .contentbox {
   /* display: flex; */
+  flex: 50;
   width: 550px;
   height: 400px;
   background-color: white;
@@ -114,7 +115,6 @@ h6 {
 .choice_time {
   display: flex;
   align-items: center;
-  /* justify-content: end;   */
   flex-direction: row;
   width: 400px;
   height: 50px;
@@ -133,16 +133,17 @@ select {
 
 .choice_date {
   display: flex;
+  align-items: center;
+  /* align-self: auto; */
   /* justify-content: end; */
   flex-direction: row;
-  width: 400px;
-  height: 50px;
 }
 #date {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 150px;
+  height: 25px;
 }
 #label_date {
   width: 195px;
@@ -192,4 +193,15 @@ button {
   font-size: 14px;
   color: white;
   text-decoration: none;
+}
+
+.searched_flight {
+  width: 550px;
+  height: 400px;
+  background-color: white;
+  border-radius: 20px;
+  margin: 30px;
+  opacity: 75%;
+  padding: 20px;
+  flex: 50;
 }
