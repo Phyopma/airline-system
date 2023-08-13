@@ -18,17 +18,17 @@ from sqlalchemy import select, insert, delete
 flight_bp = Blueprint('flights', __name__, url_prefix='/flights')
 
 
-# @flight_bp.get('/')
-# def get_all_flights():
-#     error = None
+@flight_bp.get('/')
+def get_all_flights():
+    error = None
 
-#     try:
-#         flights = db.session.execute(select(Flight))
-#     except Exception as e:
-#         print(e)
-#         abort(500)
+    try:
+        flights = db.session.execute(select(Flight))
+    except Exception as e:
+        print(e)
+        abort(500)
 
-#     return render_template('/index.html', flights=flights)
+    return render_template('flights/index.html', flights=flights)
 
 
 @flight_bp.get('/')
