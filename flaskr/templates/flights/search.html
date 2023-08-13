@@ -6,7 +6,8 @@
   <form
     class="contentbox"
     action="{{ url_for('flights.search_flights')}}"
-    method="post">
+    method="post"
+  >
     <div class="radio_style">
       <span>
         <h5><input type="radio" name="triptype" value="one_way" /> One Way</h5>
@@ -17,51 +18,43 @@
         </h5>
       </span>
     </div>
-    <div class="choice_time">
-      <h5 id="con_align">Flying From :</h5>
-      <select name="origin" required>
-        <option value="" disabled selected hidden>Departure Terminal</option>
-        {% for city in cities %}
-        <option value="{{city.id}}">{{city.name}}</option>
-        {% endfor %}
-        <!-- <option value="YGN">Yangon International Airport</option>
-        <option value="LNH">London Heatthrow</option>
-        <option value="Thai">Thai international Airport</option> -->
-      </select>
-    </div>
-    <div class="choice_time">
-      <h5 id="con_align">Flying To : <br /></h5>
-      <select name="destination" required>
-        <option value="" disabled selected hidden>Arrival Terminal</option>
+    <div class="form-row">
+      <label for="origin">Flying from: </label>
+      <select name="origin" id="origin">
+        <option value="" disabled selected hidden>Departure City</option>
         {% for city in cities %}
         <option value="{{city.id}}">{{city.name}}</option>
         {% endfor %}
       </select>
     </div>
-    <div class="choice_date">
-      <h5 id="label_date">Departure Date : <br /></h5>
-      <input id="date" type="datetime-local" name="departure_time" />
-      <!-- <span id="date"></span> -->
+
+    <div class="form-row">
+      <label for="destination">Flying to: </label>
+      <select name="destination" id="destination">
+        <option value="" disabled selected hidden>Arrival City</option>
+        {% for city in cities %}
+        <option value="{{city.id}}">{{city.name}}</option>
+        {% endfor %}
+      </select>
     </div>
-    <!-- <div class="choice_date">
-      <span id="label_date_2"><h5>Arrival Date :</h5></span>
-      <span id="date_2"><input type="date" name="departure_date" /></span>
-    </div> -->
-    <div class="choice_seat">
-      <span id="label_for_seat"><h5>Number of passengers:</h5></span>
-      <span id="option"
-        ><input
-          type="number"
-          name="no_of_seat"
-          min="1"
-          max="100"
-          placeholder="1"
-          value="1"
-      /></span>
+
+    <div class="form-row">
+      <label for="departure_time">Departure Date: </label>
+      <input id="departure_time" type="datetime-local" name="departure_time" />
     </div>
-    <div id="search_flight">
-      <button type="submit">Search Your Flight</button>
+
+    <div class="form-row">
+      <label>Number of passengers: </label>
+      <input
+        type="number"
+        name="no_of_seat"
+        min="1"
+        max="100"
+        placeholder="1"
+        value="1"
+      />
     </div>
+    <input type="submit" value="Search Flight" />
   </form>
   <div id="searched_flights">
     <ul>
