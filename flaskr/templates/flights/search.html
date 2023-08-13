@@ -20,7 +20,7 @@
     </div>
     <div class="form-row">
       <label for="origin">Flying from: </label>
-      <select name="origin" id="origin">
+      <select required name="origin" id="origin">
         <option value="" disabled selected hidden>Departure City</option>
         {% for city in cities %}
         <option value="{{city.id}}">{{city.name}}</option>
@@ -30,7 +30,7 @@
 
     <div class="form-row">
       <label for="destination">Flying to: </label>
-      <select name="destination" id="destination">
+      <select required name="destination" id="destination">
         <option value="" disabled selected hidden>Arrival City</option>
         {% for city in cities %}
         <option value="{{city.id}}">{{city.name}}</option>
@@ -40,12 +40,18 @@
 
     <div class="form-row">
       <label for="departure_time">Departure Date: </label>
-      <input id="departure_time" type="datetime-local" name="departure_time" />
+      <input
+        required
+        id="departure_time"
+        type="datetime-local"
+        name="departure_time"
+      />
     </div>
 
     <div class="form-row">
       <label>Number of passengers: </label>
       <input
+        required
         type="number"
         name="no_of_seat"
         min="1"

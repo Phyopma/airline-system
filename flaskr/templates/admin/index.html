@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='admin_dashboard.css') }}"
+    />
+  </head>
+  <body>
+    <div class="topnav">
+      <h2>Admin Dashboard - Saya G Airline</h2>
+      <div>
+        <span>Welcome back, <b>Htet</b></span>
+        <a href="#">Logout</a>
+      </div>
+    </div>
+    <div class="container">
+      <div class="flight-container">
+        <div class="flight-container-heading">
+          <span>Flight List</span>
+          <a href="#">Create Flight</a>
+        </div>
+      </div>
+      <div class="booking-container">
+        <h3>Booking List</h3>
+      </div>
+    </div>
+  </body>
+</html>

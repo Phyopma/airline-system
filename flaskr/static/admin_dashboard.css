@@ -1,0 +1,53 @@
+body {
+  background-image: url('bg_1.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 50;
+}
+
+.topnav {
+  border-radius: 10px;
+  padding: 4px 20px;
+  background-color: white;
+  opacity: 60%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a {
+  margin-left: 10px;
+  text-decoration: none;
+  color: white;
+  background-color: #2a9df1;
+  font-size: 18px;
+  padding: 13px;
+  border-radius: 5px;
+}
+
+.container {
+  margin-top: 24px;
+  display: flex;
+  gap: 15px;
+}
+
+.flight-container,
+.booking-container {
+  flex: 50;
+  height: 100vh;
+  background-color: white;
+  opacity: 60%;
+  border-radius: 10px;
+  padding: 12px 21px;
+}
+
+.flight-container-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flight-container-heading span {
+  font-size: 24px;
+  font-weight: 700;
+}

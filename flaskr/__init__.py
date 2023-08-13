@@ -25,6 +25,7 @@ with app.app_context():
     from flaskr.city.routes import city_bp
     from flaskr.booking.routes import booking_bp
     from flaskr.seat.routes import seat_bp
+    from flaskr.admin.routes import admin_bp
     db.create_all()
 
 # if test_config is None:
@@ -39,6 +40,7 @@ with app.app_context():
 
 
 app.register_blueprint(auth_bp)
+app.register_blueprint(admin_bp)
 app.register_blueprint(airline_bp)
 app.register_blueprint(flight_bp)
 app.register_blueprint(booking_bp)

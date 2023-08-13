@@ -10,17 +10,17 @@ airline_bp = Blueprint('airlines', __name__, url_prefix='/airlines')
 
 
 @airline_bp.route('/', methods=["GET"])
-@super_admin_required
+# @super_admin_required
 def get_all_airlines():
     error = None
 
     airlines = db.session.execute(select(AirLine)).scalars().all()
 
-    return render_template('/index.html', airlines=airlines)
+    return render_template('airlines/index.html', airlines=airlines)
 
 
 @airline_bp.route('/new', methods=['POST'])
-@super_admin_required
+# @super_admin_required
 def create_airline():
     airline_name = request.form['airline_name']
     email = request.form['email']

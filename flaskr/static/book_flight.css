@@ -1,19 +1,16 @@
-/* For background cover */
-body {
-  background-image: url('bg_2.jpeg');
-}
-
 #contentslogan {
   text-align: left;
   margin-left: 30px;
   font-weight: bolder;
   font-size: xx-large;
 }
+
 #contentsmall {
   text-align: left;
   margin-left: 20px;
   font-size: large;
 }
+
 .contentbox {
   display: flex;
   width: 420px;
