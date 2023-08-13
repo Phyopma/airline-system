@@ -1,12 +1,11 @@
 {% extends 'base.html' %} {% block header %} {% endblock %} {% block content %}
 <div class="wrap">
   <form class="loginContent" action="{{ url_for('auth.login')}}" method="post">
-    <div id="logo">
-      <h2>
-        ALBERT <br />
-        ENTERPRISE
-      </h2>
+    <div class="form-heading">
+      <h2>Log In</h2>
+      <span>Please enter your login details!</span>
     </div>
+
     <input class="userdetail" type="text" placeholder="Email" name="email" />
     <input
       class="userdetail"
@@ -14,9 +13,11 @@
       placeholder="Password"
       name="password"
     />
-    <span id="logo">
-      <button>Log in</button>
-    </span>
+    {% if not error == None %}
+    <span class="error-message">{{error}}</span>
+    {% endif %}
+    <input type="submit" value="Login" />
+
     <span
       >New Member? Sign up
       <a class="signupLink" href="{{ url_for('auth.register') }}">here.</a>

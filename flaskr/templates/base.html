@@ -21,29 +21,8 @@
 />
 
 <nav>
-  <!-- <h1>Airline Reservation System</h1>
-  {% if g.user %}
-  <span>Hello <strong>{{ g.user['firstname'] }}</strong></span>
-  <ul>
-    <li>
-      <a href="{{ url_for('auth.logout') }}">Log Out</a>
-      {% if g.user['role'] == 'admin' %}
-      <span>Go to Admin Panel</span>
-      {% endif %} {% else %}
-    </li>
-
-    <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-    <li>
-      <a href="{{ url_for('auth.login') }}">Log In</a>
-      {% endif %}
-    </li>
-  </ul> -->
-  <h2>
-    ALBERT <br />
-    ENTERPRISE
-  </h2>
   <div class="topnav">
-    <b>ALBERT AIRLINE</b>
+    <b>SkyBookings</b>
     {% if g.user == None %}
     <a class="login" href="{{ url_for('auth.login') }}">Log in</a>
     {% else %}
@@ -51,7 +30,7 @@
     {% endif %}
     <a class="active" href="#About">About</a>
     <a class="active" href="#ContactUs">Contact Us</a>
-    <a class="active" href="bookflight.html">Home</a>
+    <a class="active" href="{{ url_for('index') }}">Home</a>
   </div>
 </nav>
 <section class="main_container">

@@ -52,6 +52,7 @@ def get_flights_by_airline_id():
 @flight_bp.route('/search', methods=['GET', 'POST'])
 def search_flights():
     cities = get_all_cities()
+    searched_flights = []
 
     if request.method == 'POST':
         data = request.form.to_dict()

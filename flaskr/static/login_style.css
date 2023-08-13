@@ -1,19 +1,19 @@
 .wrap {
-  margin-top: 20px;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
 }
 
 .loginContent {
   display: flex;
-  width: 400px;
+  width: 370px;
 
   flex-direction: column;
-  gap: 25px;
+  gap: 22px;
   align-items: center;
 
   height: fit-content;
-  padding: 40px 35px;
+  padding: 32px 35px;
   border-radius: 10px;
   background-color: white;
   opacity: 95%;
@@ -34,11 +34,29 @@
   background-color: whitesmoke;
 }
 
+.form-heading {
+  width: 100%;
+}
+
+.form-heading h2 {
+  text-align: left;
+  margin-top: 0;
+}
+
 .namedetail input:first-child {
   margin-right: 7px;
 }
 
-button {
+.error-message {
+  color: red;
+  width: 100%;
+  padding-left: 3px;
+  text-align: left;
+}
+
+input[type='submit'] {
+  width: 150px;
+  height: 50px;
   color: white;
   border: none;
   border-radius: 10px;

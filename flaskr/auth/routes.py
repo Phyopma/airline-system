@@ -19,12 +19,10 @@ def register():
         if (data['password'] == data['re-password']):
             data['password'] = generate_password_hash(data['password'])
         else:
-            error = "Passwords need to be same!!"
+            error = "Passwords do not match!"
         data.pop('re-password')
 
-        print(data)
-
-        if error == None:
+        if error is None:
             try:
                 new_user = User(**data)
                 db.session.add(new_user)
@@ -39,27 +37,21 @@ def register():
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == 'POST':
         data = request.form.to_dict()
-        user = db.first_or_404(
-            select(User).filter(User.email == data['email']))
-        # user = db.get_or_404(User, {"email": data['email']})
-        print(user.email)
-        error = None
-        if user is None:
-            error = 'Incorrect Email.'
-        elif not check_password_hash(user.password, data['password']):
-            error = 'Incorrect password.'
+        user = db.session.execute(
+            select(User).filter(User.email == data['email'])).scalar()
+
+        if user is None or not check_password_hash(user.password, data['password']):
+            error = 'Incorrect Credentials.'
 
         if error is None:
             session.clear()
             session['user_id'] = user.id
             return redirect(url_for('index'))
 
-        else:
-            abort(400, error)
-
-    return render_template('auth/login.html')
+    return render_template('auth/login.html', error=error)
 
 
 @auth_bp.before_app_request

@@ -6,27 +6,25 @@
       class="loginContent"
       id="register_form"
       action="{{ url_for('auth.register')}}"
-      method="post">
-      <div id="logo">
-        <h2>
-          ALBERT <br />
-          ENTERPRISE
-        </h2>
+      method="post"
+    >
+      <div class="form-heading">
+        <h2>Sign Up</h2>
+        <span>Please fill in this form to create an account!</span>
       </div>
-      {% if not error == None %}
-      <span>{{error}}</span>
-      {% endif %}
       <div class="namedetail">
         <input
           class="userdetail"
           name="firstname"
           type="text"
-          placeholder="First Name" />
+          placeholder="First Name"
+        />
         <input
           class="userdetail"
           name="secondname"
           type="text"
-          placeholder="Surname" />
+          placeholder="Surname"
+        />
       </div>
 
       <input class="userdetail" name="email" type="text" placeholder="Email" />
@@ -35,15 +33,21 @@
         class="userdetail"
         name="password"
         type="password"
-        placeholder="Password" />
+        placeholder="Password"
+      />
 
       <input
         class="userdetail"
         name="re-password"
         type="password"
-        placeholder="Re-enter Password" />
+        placeholder="Re-enter Password"
+      />
 
-      <button type="submit">Sign Up</button>
+      {% if not error == None %}
+      <span class="error-message">{{error}}</span>
+      {% endif %}
+
+      <input type="submit" value="Sign Up" />
 
       <span
         >Already have an account? Login
