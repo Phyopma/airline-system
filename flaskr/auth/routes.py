@@ -40,7 +40,6 @@ def login():
     if g.user is not None:
         return redirect(url_for('index'))
     referrer = request.referrer
-    print(referrer)
     error = None
     if request.method == 'POST':
         data = request.form.to_dict()
@@ -64,7 +63,6 @@ def login():
 @auth_bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
-
     if user_id is None:
         g.user = None
     else:

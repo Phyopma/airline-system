@@ -1,18 +1,16 @@
 /* For background cover */
 body {
   height: 100%;
-  /* background-repeat: no-repeat;
-  background-position: top;
-  background-size: cover; */
   opacity: 50;
 }
+
 .bg_img {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background-image: url('bg_2.jpeg');
+  background-image: url("bg_2.jpeg");
   filter: blur(3px);
   background-repeat: no-repeat;
   background-position: top;
@@ -81,22 +79,27 @@ b:hover {
   align-items: center;
   flex-direction: row;
   justify-content: space-evenly;
-  height: 50px;
   margin: 10px;
 }
 select {
   width: 100px;
 }
 .refer_info {
-  width: 100px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
   background-color: white;
   border-radius: 10px;
   text-align: center;
 }
+
+.refer_info select {
+  min-width: fit-content;
+}
+
 #search_flight {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: 15px;
+  padding: 0px;
 }
 
 button {
@@ -111,6 +114,10 @@ button {
 }
 footer {
   text-align: end;
+}
+
+.refer_info label {
+  min-width: fit-content;
 }
 
 #allmidnav {

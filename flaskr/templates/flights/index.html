@@ -1,39 +1,46 @@
 {% extends "base.html" %} {% block title %} {% endblock %} {% block content %}
-<div class="bottomnav">
-  <p>Departure :</p>
+<form
+  action="{{url_for('flights.search_flights')}}"
+  class="bottomnav"
+  method="post">
   <div class="refer_info">
-    <select name="departure_teminal" required>
-      <option value="" disabled selected hidden>Departure Terminal</option>
-      <option value="YGN">Yagon International Airport</option>
-      <option value="LNH">London Heatthrow</option>
-      <option value="Thai">Thai international Airport</option>
+    <label for="origin">Departure :</label>
+    <select required name="origin" id="origin">
+      <option value="" disabled selected hidden>Departure City</option>
+      {% for city in cities %}
+      <option value="{{city.id}}">{{city.name}}</option>
+      {% endfor %}
     </select>
   </div>
-  <p>Arrival :</p>
   <div class="refer_info">
-    <select name="arrival_teminal" required>
-      <option value="" disabled selected hidden>Arrival Terminal</option>
-      <option value="YGN">Yagon International Airport</option>
-      <option value="LNH">London Heatthrow</option>
-      <option value="Thai">Thai international Airport</option>
+    <label for="destination">Arrival :</label>
+    <select required name="destination" id="destination">
+      <option value="" disabled selected hidden>Arrival City</option>
+      {% for city in cities %}
+      <option value="{{city.id}}">{{city.name}}</option>
+      {% endfor %}
     </select>
   </div>
-  <p>Departure date :</p>
   <div class="refer_info">
-    <input type="date" name="departure_date" />
+    <label for="departure_time">Departure Date : </label>
+    <input
+      required
+      type="datetime-local"
+      name="departure_time"
+      id="departure_time" />
   </div>
-  <p>Arrival date :</p>
   <div class="refer_info">
-    <input type="date" name="departure_date" />
+    <label for="no_of_seat">Number of passengers: </label>
+    <input
+      type="number"
+      name="no_of_seat"
+      min="1"
+      max="100"
+      placeholder="1"
+      value="1" />
   </div>
-  <p>No. of seat:</p>
-  <div class="refer_info">
-    <input type="number" name="no_of_seat" min="1" max="10" placeholder="0" />
-  </div>
-  <div id="search_flight">
-    <button>Search</button>
-  </div>
-</div>
+  <input id="search_flight" type="submit" value="Search Flight" />
+</form>
 
 <div id="allmidnav">
   <div id="firstnav">
@@ -49,14 +56,16 @@
     </form>
     <h4>Airlines</h4>
     <form action="choice_airline">
-      <input type="checkbox" name="plane_1" value="albert" />
-      <label for="plane_1">Albert Airline</label><br /><br />
-      <input type="checkbox" name="plane_2" value="kbz" />
+      {% for airline in airlines %}
+      <input type="checkbox" name="{{airline.id}}" value="{{airline.name}}" />
+      <label for="{{airline.id}}">{{airline.name}}</label><br /><br />
+      {% endfor %}
+      <!-- <input type="checkbox" name="plane_2" value="kbz" />
       <label for="plane_2">KBZ International Airline</label><br /><br />
       <input type="checkbox" name="plane_3" value="mai" />
       <label for="plane_3">MAI International Airline</label><br /><br />
       <input type="checkbox" name="plane_4" value="thaiairway" />
-      <label for="plane_3">Thai Airway</label>
+      <label for="plane_3">Thai Airway</label> -->
     </form>
   </div>
   <div id="secnav">

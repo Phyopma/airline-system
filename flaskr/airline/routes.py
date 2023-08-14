@@ -13,9 +13,7 @@ airline_bp = Blueprint('airlines', __name__, url_prefix='/airlines')
 # @super_admin_required
 def get_all_airlines():
     error = None
-
     airlines = db.session.execute(select(AirLine)).scalars().all()
-
     return render_template('airlines/index.html', airlines=airlines)
 
 

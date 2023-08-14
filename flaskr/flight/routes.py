@@ -10,6 +10,8 @@ from flaskr.auth.routes import login_required, admin_required, super_admin_requi
 
 from flaskr.city.routes import get_all_cities
 
+from flaskr.airline.routes import get_all_airlines
+
 from flaskr.models import Flight, db, City, AirLine
 
 from sqlalchemy import select, insert, delete
@@ -18,17 +20,24 @@ from sqlalchemy import select, insert, delete
 flight_bp = Blueprint('flights', __name__, url_prefix='/flights')
 
 
+@flight_bp.before_request
+def get_datas():
+    g.cities = get_all_cities()
+    g.airlines = db.session.execute(select(AirLine)).scalars().all()
+
+
 @flight_bp.get('/')
 def get_all_flights():
-    error = None
 
+    flights = []
+    error = None
     try:
         flights = db.session.execute(select(Flight))
     except Exception as e:
         print(e)
         abort(500)
 
-    return render_template('flights/index.html', flights=flights)
+    return render_template('flights/index.html', flights=flights, cities=g.cities, airlines=g.airlines)
 
 
 @flight_bp.get('/')
@@ -51,9 +60,8 @@ def get_flights_by_airline_id():
 
 @flight_bp.route('/search', methods=['GET', 'POST'])
 def search_flights():
-    cities = get_all_cities()
     searched_flights = []
-
+    referrer = request.referrer
     if request.method == 'POST':
         data = request.form.to_dict()
         tmp_date = data['departure_time'].replace(
@@ -69,7 +77,10 @@ def search_flights():
             error = e
             print(e)
             abort(500)
-    return render_template('/flights/search.html', flights=searched_flights, cities=cities)
+    if referrer and not request.path in referrer:
+        return redirect(referrer)
+    else:
+        return render_template('/flights/search.html', flights=searched_flights, cities=g.cities)
 
 
 @flight_bp.post('/new')
