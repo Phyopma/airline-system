@@ -1,15 +1,30 @@
-#contentslogan {
+/* #contentslogan {
   text-align: left;
   margin-left: 30px;
   font-weight: bolder;
   font-size: xx-large;
+} */
+
+#slogan h2 {
+  text-align: left;
+  margin: 0;
 }
 
-#contentsmall {
+#slogan {
+  padding-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  /* width: 100%; */
+}
+
+/* #contentsmall {
   text-align: left;
   margin-left: 20px;
   font-size: large;
-}
+} */
 
 .contentbox {
   display: flex;

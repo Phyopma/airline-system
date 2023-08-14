@@ -6,15 +6,14 @@
     <title>Admin Dashboard</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='admin_dashboard.css') }}"
-    />
+      href="{{ url_for('static', filename='admin_dashboard.css') }}" />
   </head>
   <body>
     <div class="topnav">
       <h2>Admin Dashboard - Saya G Airline</h2>
       <div>
         <span>Welcome back, <b>Htet</b></span>
-        <a href="#">Logout</a>
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
       </div>
     </div>
     <div class="container">

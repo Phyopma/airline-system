@@ -1,13 +1,14 @@
 {% extends "base.html" %} {% block title %} {% endblock %} {% block content %}
 <body>
   <br />
-  <span id="contentslogan">PACK YOUR BAG!!!</span>
-  <span id="contentsmall">There is so much to see.</span>
   <form
     class="contentbox"
     action="{{ url_for('flights.search_flights')}}"
-    method="post"
-  >
+    method="post">
+    <div id="slogan">
+      <h2>PACK YOUR BAG!!!</h2>
+      <span>There is so much to see.</span>
+    </div>
     <div class="radio_style">
       <span>
         <h5><input type="radio" name="triptype" value="one_way" /> One Way</h5>
@@ -44,8 +45,7 @@
         required
         id="departure_time"
         type="datetime-local"
-        name="departure_time"
-      />
+        name="departure_time" />
     </div>
 
     <div class="form-row">
@@ -57,8 +57,7 @@
         min="1"
         max="100"
         placeholder="1"
-        value="1"
-      />
+        value="1" />
     </div>
     <input type="submit" value="Search Flight" />
   </form>

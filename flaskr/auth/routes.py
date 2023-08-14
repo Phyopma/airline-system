@@ -37,6 +37,10 @@ def register():
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    if g.user is not None:
+        return redirect(url_for('index'))
+    referrer = request.referrer
+    print(referrer)
     error = None
     if request.method == 'POST':
         data = request.form.to_dict()
@@ -49,7 +53,10 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user.id
-            return redirect(url_for('index'))
+            if referrer:
+                return redirect(referrer)
+            else:
+                return redirect(url_for('index'))
 
     return render_template('auth/login.html', error=error)
 
