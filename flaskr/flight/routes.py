@@ -14,6 +14,10 @@ from flaskr.airline.routes import get_all_airlines
 
 from flaskr.models import Flight, db, City, AirLine
 
+from flaskr.city.routes import get_city_by_id
+
+from flaskr.airline.routes import get_airline_by_id
+
 from sqlalchemy import select, insert, delete
 
 
@@ -32,12 +36,12 @@ def get_all_flights():
     flights = []
     error = None
     try:
-        flights = db.session.execute(select(Flight))
+        flights = db.session.execute(select(Flight)).scalars().all()
     except Exception as e:
         print(e)
         abort(500)
 
-    return render_template('flights/index.html', flights=flights, cities=g.cities, airlines=g.airlines)
+    return render_template('flights/index.html', flights=flights, cities=g.cities, find_city=get_city_by_id, find_airline=get_airline_by_id, airlines=g.airlines)
 
 
 @flight_bp.get('/')
@@ -69,6 +73,7 @@ def search_flights():
         year, month, day, hour, minute = map(int, tmp_date)
         data['departure_time'] = datetime(
             year, month, day, hour, minute)
+        print(data['trip_type'])
         error = None
         try:
             searched_flights = db.session.execute(select(Flight).filter(
@@ -89,9 +94,18 @@ def create_flight():
     data = request.form.to_dict()
     data['airline_id'] = db.first_or_404(
         select(AirLine.id).filter(AirLine.admin_id == g.user.id))
-    print(data['airline_id'])
+    tmp_date = data['departure_time'].replace(
+        'T', '-').replace(':', '-').split('-')
+    year, month, day, hour, minute = map(int, tmp_date)
+    data['departure_time'] = datetime(
+        year, month, day, hour, minute)
+    tmp_date = data['arrival_time'].replace(
+        'T', '-').replace(':', '-').split('-')
+    year, month, day, hour, minute = map(int, tmp_date)
+    data['arrival_time'] = datetime(
+        year, month, day, hour, minute)
+
     data['available_seats'] = data['total_seats']
-    data['departure_time'] = datetime(2024, 12, 10, 5, 30)
     error = None
 
     try:

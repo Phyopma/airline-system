@@ -3,34 +3,72 @@
   action="{{url_for('flights.search_flights')}}"
   class="bottomnav"
   method="post">
-  <div class="refer_info">
-    <label for="origin">Departure :</label>
-    <select required name="origin" id="origin">
-      <option value="" disabled selected hidden>Departure City</option>
-      {% for city in cities %}
-      <option value="{{city.id}}">{{city.name}}</option>
-      {% endfor %}
-    </select>
+  <div class="radio_style">
+    <div>
+      <input
+        checked
+        type="radio"
+        name="trip_type"
+        id="one_way"
+        value="one_way" />
+      <label for="one_way">One Way</label>
+    </div>
+    <div>
+      <input type="radio" name="trip_type" id="roundtrip" value="roundtrip" />
+      <label for="roundtrip">Round Trip</label>
+    </div>
+  </div>
+  <script>
+    document
+      .getElementById("one_way")
+      .addEventListener(
+        "click",
+        (e) =>
+          (document.getElementById("returning_date").style.display = "none")
+      );
+    document
+      .getElementById("roundtrip")
+      .addEventListener(
+        "click",
+        (e) =>
+          (document.getElementById("returning_date").style.display = "flex")
+      );
+  </script>
+
+  <div id="vert_line"></div>
+
+  <div class="loc_date" id="departure">
+    <div class="refer_info">
+      <label for="origin">Departure :</label>
+      <select required name="origin" id="origin">
+        <option value="" disabled selected hidden>Departure City</option>
+        {% for city in cities %}
+        <option value="{{city.id}}">{{city.name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="refer_info" id="departure_date">
+      <label for="departure">Departure Date : </label>
+      <input required type="datetime-local" name="departure" id="departure" />
+    </div>
+  </div>
+  <div class="loc_date" id="returning">
+    <div class="refer_info">
+      <label for="destination">Arrival :</label>
+      <select required name="destination" id="destination">
+        <option value="" disabled selected hidden>Arrival City</option>
+        {% for city in cities %}
+        <option value="{{city.id}}">{{city.name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="refer_info" id="returning_date">
+      <label for="returning">Returning Date : </label>
+      <input type="datetime-local" name="returning" id="returning" />
+    </div>
   </div>
   <div class="refer_info">
-    <label for="destination">Arrival :</label>
-    <select required name="destination" id="destination">
-      <option value="" disabled selected hidden>Arrival City</option>
-      {% for city in cities %}
-      <option value="{{city.id}}">{{city.name}}</option>
-      {% endfor %}
-    </select>
-  </div>
-  <div class="refer_info">
-    <label for="departure_time">Departure Date : </label>
-    <input
-      required
-      type="datetime-local"
-      name="departure_time"
-      id="departure_time" />
-  </div>
-  <div class="refer_info">
-    <label for="no_of_seat">Number of passengers: </label>
+    <label for="no_of_seat">No. of seats: </label>
     <input
       type="number"
       name="no_of_seat"
@@ -45,118 +83,45 @@
 <div id="allmidnav">
   <div id="firstnav">
     <h3>Filter By</h3>
-    <h4>Transits</h4>
-    <form action="choice_direction">
-      <input type="checkbox" name="choice_1" value="direct" />
-      <label for="choice_1">Direct</label> <br /><br />
-      <input type="checkbox" name="choice_2" value="one_stop" />
-      <label for="choice_2">1 Stop</label><br /><br />
-      <input type="checkbox" name="choice_3" value="more_stop" />
-      <label for="choice_3">2 and more Stops</label><br /><br />
-    </form>
     <h4>Airlines</h4>
     <form action="choice_airline">
       {% for airline in airlines %}
       <input type="checkbox" name="{{airline.id}}" value="{{airline.name}}" />
       <label for="{{airline.id}}">{{airline.name}}</label><br /><br />
       {% endfor %}
-      <!-- <input type="checkbox" name="plane_2" value="kbz" />
-      <label for="plane_2">KBZ International Airline</label><br /><br />
-      <input type="checkbox" name="plane_3" value="mai" />
-      <label for="plane_3">MAI International Airline</label><br /><br />
-      <input type="checkbox" name="plane_4" value="thaiairway" />
-      <label for="plane_3">Thai Airway</label> -->
     </form>
   </div>
   <div id="secnav">
     <h3>Cheapest Flight</h3>
     <!-- start of tje flight box -->
+    {% for flight in flights %}
     <div class="flightbox">
       <div class="time_fee">
-        <div class="dis_time">21:25(LHR) - 18:00(RGN)</div>
-        <div class="dis_money">$1217</div>
+        <div class="dis_time">
+          {{ (flight.arrival_time-flight.departure_time)}}
+        </div>
+        <div class="dis_money">$ {{flight.price}}</div>
       </div>
-      <div class="detail">
-        <span>1 Connection</span>
-        <span>Economy</span>
-        <span>Albert Airline</span>
-      </div>
+      <hr />
       <div class="time_fee">
-        <div class="dis_time">19:00(RGN) - 07:50(LHR)</div>
+        <div class="dis_time">
+          {{ flight.departure_time.hour}}:{{flight.departure_time.minute}}({{
+          find_city(flight.origin_city_id).code }}) -
+          {{flight.arrival_time.hour}}:{{flight.arrival_time.minute}}({{
+          find_city(flight.destination_city_id).code}})
+        </div>
         <div class="dis_money"></div>
       </div>
       <div class="detail">
         <span>1 Connection</span>
-        <span>Economy</span>
-        <span>Albert Airline</span>
+        <span>{{flight.flight_class.capitalize()}}</span>
+        <span>{{find_airline(flight.airline_id).name}}</span>
       </div>
     </div>
+    {% endfor %}
     <!-- end of the flight box -->
     <h3>Recommanded for You</h3>
     <!-- start of tje flight box -->
-    <div class="flightbox">
-      <div class="time_fee">
-        <div class="dis_time">21:25(LHR) - 18:00(RGN)</div>
-        <div class="dis_money">$1217</div>
-      </div>
-      <div class="detail">
-        <span>1 Connection</span>
-        <span>Economy</span>
-        <span>Albert Airline</span>
-      </div>
-      <div class="time_fee">
-        <div class="dis_time">19:00(RGN) - 07:50(LHR)</div>
-        <div class="dis_money"></div>
-      </div>
-      <div class="detail">
-        <span>1 Connection</span>
-        <span>Economy</span>
-        <span>Albert Airline</span>
-      </div>
-    </div>
-    <!-- end of the flight box -->
-    <!-- start of tje flight box -->
-    <div class="flightbox">
-      <div class="time_fee">
-        <div class="dis_time">21:25(LHR) - 18:00(RGN)</div>
-        <div class="dis_money">$1217</div>
-      </div>
-      <div class="detail">
-        <span>1 Connection</span>
-        <span>Economy</span>
-        <span>Albert Airline</span>
-      </div>
-      <div class="time_fee">
-        <div class="dis_time">19:00(RGN) - 07:50(LHR)</div>
-        <div class="dis_money"></div>
-      </div>
-      <div class="detail">
-        <span>1 Connection</span>
-        <span>Economy</span>
-        <span>Albert Airline</span>
-      </div>
-    </div>
-    <!-- end of the flight box --><!-- start of tje flight box -->
-    <div class="flightbox">
-      <div class="time_fee">
-        <div class="dis_time">21:25(LHR) - 18:00(RGN)</div>
-        <div class="dis_money">$1217</div>
-      </div>
-      <div class="detail">
-        <span>1 Connection</span>
-        <span>Economy</span>
-        <span>Albert Airline</span>
-      </div>
-      <div class="time_fee">
-        <div class="dis_time">19:00(RGN) - 07:50(LHR)</div>
-        <div class="dis_money"></div>
-      </div>
-      <div class="detail">
-        <span>1 Connection</span>
-        <span>Economy</span>
-        <span>Albert Airline</span>
-      </div>
-    </div>
     <!-- end of the flight box -->
   </div>
 

@@ -17,6 +17,10 @@ def get_all_airlines():
     return render_template('airlines/index.html', airlines=airlines)
 
 
+def get_airline_by_id(id):
+    return db.session.get(AirLine, id)
+
+
 @airline_bp.route('/new', methods=['POST'])
 # @super_admin_required
 def create_airline():

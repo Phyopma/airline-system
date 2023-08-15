@@ -21,11 +21,17 @@
         <div class="flight-container-heading">
           <span>Flight List</span>
           <a href="#">Create Flight</a>
+          <input type="datetime-local" name="lee" id="lee" />
         </div>
       </div>
       <div class="booking-container">
         <h3>Booking List</h3>
       </div>
     </div>
+    <script>
+      document
+        .getElementById("lee")
+        .addEventListener("change", (e) => console.log(e.target.value));
+    </script>
   </body>
 </html>

@@ -20,8 +20,12 @@ def get_all_cities():
     # return render_template('/index.html', cities=cities)
 
 
+def get_city_by_id(id):
+    return db.session.get(City, id)
+
+
 @city_bp.post('/new')
-@admin_required
+# @admin_required
 def create_city():
     data = request.form.to_dict()
     error = None
@@ -32,7 +36,8 @@ def create_city():
     except Exception as e:
         print("errors", e)
         abort(500)
-    return redirect(url_for("cities.get_all_cities"))
+    # return redirect(url_for("cities.get_all_cities"))
+    return "Success", 201
 
 
 @city_bp.route('/<int:id>/delete', methods=['POST'])

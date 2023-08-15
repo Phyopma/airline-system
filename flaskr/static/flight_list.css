@@ -90,11 +90,16 @@ select {
   align-items: center;
   background-color: white;
   border-radius: 10px;
+  min-width: fit-content;
   text-align: center;
 }
 
-.refer_info select {
-  min-width: fit-content;
+.refer_info input {
+  padding: 5px;
+}
+
+#returning_date {
+  display: none;
 }
 
 #search_flight {
@@ -156,7 +161,7 @@ footer {
 }
 .flightbox {
   width: 480px;
-  padding: 10px;
+  padding: 10px 10px 15px 10px;
   background-color: wheat;
   opacity: 80%;
   border-radius: 10px;
@@ -166,25 +171,68 @@ footer {
 .time_fee {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  align-items: center;
   margin: 5px;
+  padding: 5px 0;
+}
+
+#vert_line {
+  width: 1px;
+  height: 100px;
+  background-color: #ccc;
+  margin: 0 10px;
+}
+
+.radio_style {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  gap: 13px;
+  font-size: 15px;
+  margin: 0;
+  max-width: fit-content;
+}
+
+.radio_style div {
+  width: 100px;
+}
+
+.loc_date {
+  display: flex;
+  width: 25%;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .dis_time {
-  width: 400px;
+  /* width: 400px; */
   justify-content: right;
   text-align: start;
   font-weight: bolder;
-  font-size: x-large;
+  font-size: 16px;
 }
 .dis_money {
-  width: 60px;
+  /* width: 60px; */
   font-weight: bold;
-  font-size: x-large;
+  font-size: 20px;
   color: green;
 }
 .detail {
   display: flex;
+  font-weight: 700;
+  opacity: 80%;
+  font-size: 14px;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding-left: 20px;
+}
+
+.detail span {
+  width: 30%;
+}
+
+hr {
+  border: 1px solid darkgray;
+  margin-top: 0;
 }

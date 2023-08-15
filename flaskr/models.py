@@ -49,12 +49,14 @@ class City(db.Model):
     __tablename__ = 'city'
     id = db.Column(db.Integer, unique=True, primary_key=True)
     name = db.Column(db.String(50), unique=True)
+    code = db.Column(db.String(5), unique=True)
 
-    def __init__(self, name):
+    def __init__(self, name, code):
         self.name = name
+        self.code = code
 
     def __repr__(self):
-        return f'<City {self.name!r}>'
+        return f'<City {self.name, self.code!r}>'
 
 
 class Flight(db.Model):
@@ -70,21 +72,23 @@ class Flight(db.Model):
     total_seats = db.Column(db.Integer, nullable=False)
     available_seats = db.Column(db.Integer, nullable=False)
     departure_time = db.Column(db.DateTime, nullable=False)
-    duration = db.Column(db.Float, nullable=False)
+    arrival_time = db.Column(db.DateTime, nullable=False)
     price = db.Column(db.Float, nullable=False)
     seats = db.relationship('Seat', back_populates='flight')
     airline = db.relationship('AirLine', back_populates='flights')
+    flight_class = db.Column(db.String(20), nullable=False)
     # origin_city = db.relationship('city', back_populates='flight')
     # destination_city = db.relationship('city', back_populates='flight')
 
-    def __init__(self, airline_id, origin_city_id, destination_city_id, total_seats, available_seats, departure_time, duration, price, ):
+    def __init__(self, airline_id, origin_city_id, destination_city_id, total_seats, available_seats, departure_time, arrival_time, price, flight_class):
         self.airline_id = airline_id
         self.origin_city_id = origin_city_id
         self.destination_city_id = destination_city_id
         self.total_seats = total_seats
         self.available_seats = available_seats
         self.departure_time = departure_time
-        self.duration = duration
+        self.arrival_time = arrival_time
+        self.flight_class = flight_class
         self.price = price
 
     def __repr__(self):
