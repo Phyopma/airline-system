@@ -12,26 +12,144 @@
     <div class="topnav">
       <h2>Admin Dashboard - Saya G Airline</h2>
       <div>
-        <span>Welcome back, <b>Htet</b></span>
+        <span
+          >Welcome back,
+          <b>{{ g.user.firstname }} {{g.user.secondname}}</b></span
+        >
         <a href="{{ url_for('auth.logout') }}">Logout</a>
       </div>
     </div>
     <div class="container">
       <div class="flight-container">
         <div class="flight-container-heading">
-          <span>Flight List</span>
-          <a href="#">Create Flight</a>
-          <input type="datetime-local" name="lee" id="lee" />
+          <h3>Flight List</h3>
+          <button id="create_button">Create Flight</button>
+        </div>
+        <hr />
+        <div class="flight-container-body">
+          {% for flight in flights %}
+          <div class="flightbox">
+            <div class="time_fee">
+              <div class="dis_time">
+                {{ (flight.arrival_time-flight.departure_time)}}
+              </div>
+              <div class="dis_money">$ {{flight.price}}</div>
+            </div>
+            <hr />
+            <div class="time_fee">
+              <div class="dis_time">
+                {{
+                flight.departure_time.hour}}:{{flight.departure_time.minute}}({{
+                find_city(flight.origin_city_id).code }}) -
+                {{flight.arrival_time.hour}}:{{flight.arrival_time.minute}}({{
+                find_city(flight.destination_city_id).code}})
+              </div>
+              <div class="dis_money"></div>
+            </div>
+            <div class="detail">
+              <span>1 Connection</span>
+              <span>{{flight.flight_class.capitalize()}}</span>
+              <span>{{find_airline(flight.airline_id).name}}</span>
+            </div>
+          </div>
+          {% endfor %}
         </div>
       </div>
       <div class="booking-container">
         <h3>Booking List</h3>
       </div>
     </div>
+    <div id="main_modal" class="modal">
+      <div class="modal-content">
+        <div id="modal-heading">
+          <span id="modal-title">Create Flight</span>
+          <span id="close">&times;</span>
+        </div>
+        <!-- form started -->
+        <form
+          id="flight_create"
+          action="{{ url_for('flights.create_flight' )}}"
+          method="post">
+          <div id="class">
+            <label for="flight_class">Flight Class : </label>
+            <select name="flight_class" id="flight_class">
+              <option value="economy">Economy</option>
+              <option value="business">Business</option>
+              <option value="premium">Premium</option>
+            </select>
+          </div>
+          <div class="modal_data">
+            <div class="location">
+              <label for="origin">Origin : </label
+              ><select name="origin_city_id" id="origin">
+                {% for city in g.cities %}
+                <option value="{{city.id}}">{{city.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="location">
+              <label for="origin">Destination : </label
+              ><select name="destination_city_id" id="destination">
+                {% for city in g.cities %}
+                <option value="{{city.id}}">{{city.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="modal_data">
+            <div class="date_time">
+              <label for="departure">Departure Date : </label>
+              <input
+                type="datetime-local"
+                name="departure_time"
+                id="departure" />
+            </div>
+            <div class="date_time">
+              <label for="arrival">Arrival Date : </label>
+              <input type="datetime-local" name="arrival_time" id="arrival" />
+            </div>
+          </div>
+          <div class="modal_data">
+            <div class="price_seat">
+              <label for="price">Price :</label>
+              <input type="number" name="price" id="price" min="0" />
+            </div>
+            <div class="price_seat">
+              <label for="seats">Seats :</label>
+              <input type="number" name="total_seats" id="seats" min="0" />
+            </div>
+          </div>
+          <input type="submit" value="Submit" />
+        </form>
+        <!-- form ended -->
+      </div>
+    </div>
     <script>
+      var modal = document.getElementById("main_modal");
+
       document
-        .getElementById("lee")
-        .addEventListener("change", (e) => console.log(e.target.value));
+        .getElementById("create_button")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          console.log("hello");
+          modal.style.display = "block";
+        });
+
+      document
+        .getElementById("close")
+        .addEventListener("click", () => (modal.style.display = "none"));
+
+      document
+        .getElementById("flight_create")
+        .addEventListener("submit", (e) => {
+          modal.style.display = "none";
+        });
+
+      window.onclick = (e) => {
+        if (e.target == modal) {
+          modal.style.display = "none";
+        }
+      };
     </script>
   </body>
 </html>

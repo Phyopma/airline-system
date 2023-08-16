@@ -26,72 +26,67 @@ flight_bp = Blueprint('flights', __name__, url_prefix='/flights')
 
 @flight_bp.before_request
 def get_datas():
-    g.cities = get_all_cities()
-    g.airlines = db.session.execute(select(AirLine)).scalars().all()
+    try:
+        g.cities = get_all_cities()
+        g.airlines = db.session.execute(select(AirLine)).scalars().all()
+        g.flights = db.session.execute(select(Flight)).scalars().all()
+    except Exception as e:
+        abort(500)
 
 
 @flight_bp.get('/')
 def get_all_flights():
-
-    flights = []
-    error = None
-    try:
-        flights = db.session.execute(select(Flight)).scalars().all()
-    except Exception as e:
-        print(e)
-        abort(500)
-
-    return render_template('flights/index.html', flights=flights, cities=g.cities, find_city=get_city_by_id, find_airline=get_airline_by_id, airlines=g.airlines)
+    return render_template('/flights/index.html', flights=g.flights, cities=g.cities, find_city=get_city_by_id, find_airline=get_airline_by_id, airlines=g.airlines)
 
 
-@flight_bp.get('/')
-def get_flights_by_airline_id():
-    error = None
-    airline_id = request.args.get('airline_id')
-    try:
-        if airline_id:
-            flights = db.session.execute(
-                select(Flight).filter_by(airline_id=airline_id)).scalars().all()
-        else:
-            flights = db.session.execute(select(Flight)).scalars().all()
-        print(flights)
-    except Exception as e:
-        print(e)
-        abort(500)
+# @flight_bp.get('/')
+# def get_flights_by_airline_id():
+#     error = None
+#     airline_id = request.args.get('airline_id')
+#     try:
+#         if airline_id:
+#             flights = db.session.execute(
+#                 select(Flight).filter_by(airline_id=airline_id)).scalars().all()
+#         else:
+#             flights = db.session.execute(select(Flight)).scalars().all()
+#         print(flights)
+#     except Exception as e:
+#         print(e)
+#         abort(500)
 
-    return render_template('/index.html', flights=flights)
+#     return render_template('flights/index.html', flights=flights)
 
 
-@flight_bp.route('/search', methods=['GET', 'POST'])
+@flight_bp.post('/search')
 def search_flights():
     searched_flights = []
-    referrer = request.referrer
-    if request.method == 'POST':
-        data = request.form.to_dict()
-        tmp_date = data['departure_time'].replace(
-            'T', '-').replace(':', '-').split('-')
-        year, month, day, hour, minute = map(int, tmp_date)
-        data['departure_time'] = datetime(
-            year, month, day, hour, minute)
-        print(data['trip_type'])
-        error = None
-        try:
-            searched_flights = db.session.execute(select(Flight).filter(
-                Flight.origin_city_id == data['origin'], Flight.destination_city_id == data['destination'], Flight.available_seats >= data['no_of_seat'], Flight.departure_time >= data['departure_time'],  Flight.departure_time >= data['departure_time'])).scalars().all()
-        except Exception as e:
-            error = e
-            print(e)
-            abort(500)
-    if referrer and not request.path in referrer:
-        return redirect(referrer)
-    else:
-        return render_template('/flights/search.html', flights=searched_flights, cities=g.cities)
+    # referrer = request.referrer
+    data = request.form.to_dict()
+    tmp_date = data['departure_time'].replace(
+        'T', '-').replace(':', '-').split('-')
+    year, month, day, hour, minute = map(int, tmp_date)
+    data['departure_time'] = datetime(
+        year, month, day, hour, minute)
+    print(data['trip_type'])
+    error = None
+    try:
+        searched_flights = db.session.execute(select(Flight).filter(
+            Flight.origin_city_id == data['origin'], Flight.destination_city_id == data['destination'], Flight.available_seats >= data['no_of_seat'], Flight.departure_time >= data['departure_time'],  Flight.departure_time >= data['departure_time'])).scalars().all()
+    except Exception as e:
+        error = e
+        print(e)
+        abort(500)
+# if referrer and not request.path in referrer:
+#     return redirect(referrer)
+# else:
+    return render_template('flights/index.html', flights=searched_flights, cities=g.cities,  find_city=get_city_by_id, find_airline=get_airline_by_id, airlines=g.airlines)
 
 
 @flight_bp.post('/new')
 @admin_required
 def create_flight():
     data = request.form.to_dict()
+    print("in_flight_create", data)
     data['airline_id'] = db.first_or_404(
         select(AirLine.id).filter(AirLine.admin_id == g.user.id))
     tmp_date = data['departure_time'].replace(
@@ -107,7 +102,6 @@ def create_flight():
 
     data['available_seats'] = data['total_seats']
     error = None
-
     try:
         new_flight = Flight(**data)
         db.session.add(new_flight)
@@ -118,20 +112,23 @@ def create_flight():
     except Exception as e:
         print(e)
         abort(500)
-    return redirect(url_for("flights.get_all_flights"))
+    if request.referrer and not request.path in request.referrer:
+        return redirect(request.referrer)
+    else:
+        return redirect(url_for("flights.get_all_flights"))
 
 
 @flight_bp.route('/<int:id>/delete', methods=['POST'])
-@admin_required
+# @admin_required
 def delete_flight(id):
     error = None
 
     try:
-        airline_id = db.first_or_404(
-            select(AirLine.id).filter(AirLine.admin_id == g.user.id))
+        # airline_id = db.first_or_404(
+        #     select(AirLine.id).filter(AirLine.admin_id == g.user.id))
         flight = db.get_or_404(Flight, id)
-        if (flight.airline_id != airline_id):
-            abort(401)
+        # if (flight.airline_id != airline_id):
+        #     abort(401)
         db.session.delete(flight)
         delete_seats(id)
         db.session.commit()
