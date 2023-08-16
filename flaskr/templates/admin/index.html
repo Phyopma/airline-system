@@ -11,12 +11,9 @@
   </head>
   <body>
     <div class="topnav">
-      <h2>Admin Dashboard - Saya G Airline</h2>
+      <h2>Admin Dashboard - {{ find_airline.name }}</h2>
       <div>
-        <span
-          >Welcome back,
-          <b>{{ g.user.firstname }} {{g.user.secondname}}</b></span
-        >
+        <span>Welcome back, <b>{{ g.user.firstname }}</b></span>
         <a href="{{ url_for('auth.logout') }}">Logout</a>
       </div>
     </div>
@@ -50,7 +47,6 @@
             <div class="detail">
               <span>1 Connection</span>
               <span>{{flight.flight_class.capitalize()}}</span>
-              <span>{{find_airline(flight.airline_id).name}}</span>
             </div>
           </div>
           {% endfor %}

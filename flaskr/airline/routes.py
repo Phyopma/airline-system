@@ -21,6 +21,11 @@ def get_airline_by_id(id):
     return db.session.get(AirLine, id)
 
 
+def get_airline_by_admin_id():
+    return db.session.execute(
+        select(AirLine).filter(AirLine.admin_id == g.user.id)).scalar()
+
+
 @airline_bp.route('/new', methods=['POST'])
 # @super_admin_required
 def create_airline():

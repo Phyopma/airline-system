@@ -24,6 +24,7 @@ with app.app_context():
     from flaskr.seat.routes import seat_bp
     from flaskr.admin.routes import admin_bp
     from flaskr.super_admin.routes import super_admin_bp
+    from flaskr.city.routes import get_all_cities
     db.create_all()
 
 
@@ -42,6 +43,11 @@ app.register_error_handler(500, internal_server_error)
 @app.route("/")
 def index():
     return render_template('index.html')
+
+
+@app.route("/search")
+def search_flight():
+    return render_template('search.html', cities=get_all_cities())
 
 
 @app.teardown_appcontext

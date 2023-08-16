@@ -36,7 +36,26 @@ def get_datas():
 
 @flight_bp.get('/')
 def get_all_flights():
-    return render_template('/flights/index.html', flights=g.flights, cities=g.cities, find_city=get_city_by_id, find_airline=get_airline_by_id, airlines=g.airlines)
+    origin = request.args.get('origin')
+    destination = request.args.get('destination')
+    num_seats = request.args.get('num_seats')
+    departure_time_from_input = request.args.get('departure_time')
+
+    tmp_date = departure_time_from_input.replace(
+        'T', '-').replace(':', '-').split('-')
+    year, month, day, hour, minute = map(int, tmp_date)
+    departure_time = datetime(
+        year, month, day, hour, minute)
+    error = None
+    try:
+        searched_flights = db.session.execute(select(Flight).filter(
+            Flight.origin_city_id == origin, Flight.destination_city_id == destination, Flight.available_seats >= num_seats, Flight.departure_time >= departure_time,  Flight.departure_time >= departure_time)).scalars().all()
+    except Exception as e:
+        error = e
+        print(e)
+        abort(500)
+
+    return render_template('/flights/index.html', flights=searched_flights, cities=g.cities,  find_city=get_city_by_id, find_airline=get_airline_by_id, airlines=g.airlines)
 
 
 # @flight_bp.get('/')
@@ -67,11 +86,10 @@ def search_flights():
     year, month, day, hour, minute = map(int, tmp_date)
     data['departure_time'] = datetime(
         year, month, day, hour, minute)
-    print(data['trip_type'])
     error = None
     try:
         searched_flights = db.session.execute(select(Flight).filter(
-            Flight.origin_city_id == data['origin'], Flight.destination_city_id == data['destination'], Flight.available_seats >= data['no_of_seat'], Flight.departure_time >= data['departure_time'],  Flight.departure_time >= data['departure_time'])).scalars().all()
+            Flight.origin_city_id == data['origin'], Flight.destination_city_id == data['destination'], Flight.available_seats >= data['num_seats'], Flight.departure_time >= data['departure_time'],  Flight.departure_time >= data['departure_time'])).scalars().all()
     except Exception as e:
         error = e
         print(e)
@@ -79,7 +97,7 @@ def search_flights():
 # if referrer and not request.path in referrer:
 #     return redirect(referrer)
 # else:
-    return render_template('flights/index.html', flights=searched_flights, cities=g.cities,  find_city=get_city_by_id, find_airline=get_airline_by_id, airlines=g.airlines)
+    return redirect(url_for('flights.get_all_flights', flights=searched_flights, cities=g.cities,  find_city=get_city_by_id, find_airline=get_airline_by_id, airlines=g.airlines))
 
 
 @flight_bp.post('/new')

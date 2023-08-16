@@ -3,21 +3,12 @@
   <br />
   <form
     class="contentbox"
-    action="{{ url_for('flights.search_flights')}}"
-    method="post">
+    action="{{ url_for('flights.get_all_flights')}}"
+    method="get"
+  >
     <div id="slogan">
       <h2>PACK YOUR BAG!!!</h2>
       <span>There is so much to see.</span>
-    </div>
-    <div class="radio_style">
-      <span>
-        <h5><input type="radio" name="triptype" value="one_way" /> One Way</h5>
-      </span>
-      <span>
-        <h5>
-          <input type="radio" name="triptype" value="roundtrip" /> Round Trip
-        </h5>
-      </span>
     </div>
     <div class="form-row">
       <label for="origin">Flying from: </label>
@@ -45,19 +36,22 @@
         required
         id="departure_time"
         type="datetime-local"
-        name="departure_time" />
+        name="departure_time"
+      />
     </div>
 
     <div class="form-row">
-      <label for="no_of_seat">Number of passengers: </label>
+      <label for="num_seats">Number of passengers: </label>
       <input
         required
         type="number"
-        name="no_of_seat"
+        name="num_seats"
+        id="num_seats"
         min="1"
         max="100"
         placeholder="1"
-        value="1" />
+        value="1"
+      />
     </div>
     <input type="submit" value="Search Flight" />
   </form>

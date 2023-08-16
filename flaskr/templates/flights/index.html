@@ -2,7 +2,8 @@
 <form
   action="{{url_for('flights.search_flights')}}"
   class="bottomnav"
-  method="post">
+  method="post"
+>
   <div class="radio_style">
     <div>
       <input
@@ -10,7 +11,8 @@
         type="radio"
         name="trip_type"
         id="one_way"
-        value="one_way" />
+        value="one_way"
+      />
       <label for="one_way">One Way</label>
     </div>
     <div>
@@ -20,18 +22,18 @@
   </div>
   <script>
     document
-      .getElementById("one_way")
+      .getElementById('one_way')
       .addEventListener(
-        "click",
+        'click',
         (e) =>
-          (document.getElementById("returning_date").style.display = "none")
+          (document.getElementById('returning_date').style.display = 'none')
       );
     document
-      .getElementById("roundtrip")
+      .getElementById('roundtrip')
       .addEventListener(
-        "click",
+        'click',
         (e) =>
-          (document.getElementById("returning_date").style.display = "flex")
+          (document.getElementById('returning_date').style.display = 'block')
       );
   </script>
 
@@ -53,7 +55,8 @@
         required
         type="datetime-local"
         name="departure_time"
-        id="departure" />
+        id="departure"
+      />
     </div>
   </div>
   <div class="loc_date" id="returning">
@@ -79,7 +82,8 @@
       min="1"
       max="100"
       placeholder="1"
-      value="1" />
+      value="1"
+    />
   </div>
   <input id="search_flight" type="submit" value="Search Flight" />
 </form>
@@ -139,7 +143,7 @@
       <span>Economy</span>
       <span>Emirates</span>
     </div>
-    <hr id="bar"></hr>
+    <hr id="bar" />
   </div>
 </div>
 {% endblock %}

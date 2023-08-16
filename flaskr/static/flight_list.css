@@ -10,7 +10,7 @@ body {
   left: 0;
   height: 100%;
   width: 100%;
-  background-image: url("bg_2.jpeg");
+  background-image: url('bg_2.jpeg');
   filter: blur(3px);
   background-repeat: no-repeat;
   background-position: top;
@@ -138,7 +138,7 @@ footer {
   background-color: white;
   opacity: 75%;
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 20px;
   margin-right: 10px;
 }
 
