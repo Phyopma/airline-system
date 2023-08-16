@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Super Admin Panel</title>
+  </head>
+  <body>
+    <h1>List of airlines</h1>
+    <ul>
+      {% for airline in airlines %}
+      <li>
+        {{ airline['name'] }}
+        <form
+          action="{{ url_for('airlines.delete_airline', id=airline['id']) }}"
+          method="post"
+        >
+          <input
+            class="danger"
+            type="submit"
+            value="Delete"
+            onclick="return confirm('Are you sure?');"
+          />
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    <form action="/airlines/new" method="post">
+      <label for="airline_name">Airline Name</label>
+      <input name="airline_name" id="airline_name" required />
+      <label for="email">Email</label>
+      <input name="email" id="email" required />
+
+      <input type="submit" value="Create" />
+    </form>
+    <hr />
+    <h1>List of cities</h1>
+    <ul>
+      {% for city in cities %}
+      <li>
+        {{ city['name'] }}
+        <form
+          action="{{ url_for('cities.delete_city', id=city['id']) }}"
+          method="post"
+        >
+          <input
+            class="danger"
+            type="submit"
+            value="Delete"
+            onclick="return confirm('Are you sure?');"
+          />
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    <form action="/cities/new" method="post">
+      <label for="name">City Name</label>
+      <input name="name" id="name" required />
+      <label for="code">City Code</label>
+      <input name="code" id="code" required />
+
+      <input type="submit" value="Create" />
+    </form>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 body {
   max-height: 100%;
-  background-image: url("bg_1.jpeg");
+  background-image: url('bg_1.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
   opacity: 50;
@@ -26,15 +26,17 @@ button {
   padding: 13px;
   border-radius: 5px;
   border: none;
+  cursor: pointer;
 }
 
-input[type="submit"] {
+input[type='submit'] {
   color: white;
   background-color: #2a9df1;
   font-size: 18px;
   padding: 13px;
   border-radius: 5px;
   border: none;
+  cursor: pointer;
 }
 
 #flight_create {
@@ -151,6 +153,7 @@ input[type="submit"] {
   font-size: 28px;
   font-weight: bold;
   font-style: normal;
+  cursor: pointer;
 }
 
 input {
@@ -181,6 +184,7 @@ input {
   height: auto;
   margin-bottom: 10px;
 }
+
 .time_fee {
   display: flex;
   flex-direction: row;
@@ -204,12 +208,14 @@ input {
   font-weight: bolder;
   font-size: 16px;
 }
+
 .dis_money {
   /* width: 60px; */
   font-weight: bold;
   font-size: 20px;
   color: green;
 }
+
 .detail {
   display: flex;
   font-weight: 700;

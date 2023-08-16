@@ -1,7 +1,4 @@
-from flask import Flask, render_template, current_app, redirect, request, url_for, g
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker, declarative_base
+from flask import Flask, render_template
 import click
 
 
@@ -26,21 +23,13 @@ with app.app_context():
     from flaskr.booking.routes import booking_bp
     from flaskr.seat.routes import seat_bp
     from flaskr.admin.routes import admin_bp
+    from flaskr.super_admin.routes import super_admin_bp
     db.create_all()
-
-# if test_config is None:
-#     app.config.from_pyfile('config.py', silent=True)
-# else:
-# app.config.from_mapping(test_config)
-
-# try:
-#     os.makedirs(app.instance_path)
-# except OSError:
-#     pass
 
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp)
+app.register_blueprint(super_admin_bp)
 app.register_blueprint(airline_bp)
 app.register_blueprint(flight_bp)
 app.register_blueprint(booking_bp)
@@ -48,7 +37,6 @@ app.register_blueprint(city_bp)
 app.register_blueprint(seat_bp)
 app.register_error_handler(401, authorization_error)
 app.register_error_handler(500, internal_server_error)
-# app.cli.add_command(init_db_command)
 
 
 @app.route("/")
