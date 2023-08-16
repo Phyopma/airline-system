@@ -103,6 +103,15 @@
     <h3>Cheapest Flight</h3>
     <!-- start of tje flight box -->
     {% for flight in flights %}
+    <!-- find origin city from cities -->
+    {% set origin_city = cities | selectattr('id', '==', flight.origin_city_id)
+    | first %}
+    <!-- find destination city from cities -->
+    {% set destination_city = cities | selectattr('id', '==',
+    flight.destination_city_id) | first %}
+    <!-- find airline from airlines -->
+    {% set airline = airlines | selectattr('id', '==', flight.airline_id) |
+    first %}
     <div class="flightbox">
       <div class="time_fee">
         <div class="dis_time">
@@ -113,17 +122,23 @@
       <hr />
       <div class="time_fee">
         <div class="dis_time">
-          {{ flight.departure_time.hour}}:{{flight.departure_time.minute}}({{
-          find_city(flight.origin_city_id).code }}) -
-          {{flight.arrival_time.hour}}:{{flight.arrival_time.minute}}({{
-          find_city(flight.destination_city_id).code}})
+          <span
+            >{{
+            flight.departure_time.hour}}:{{flight.departure_time.minute}}</span
+          >
+          <span>({{ origin_city.code }})</span>
+          -
+          <span
+            >{{flight.arrival_time.hour}}:{{flight.arrival_time.minute}}</span
+          >
+          <span>({{ destination_city.code }})</span>
         </div>
         <div class="dis_money"></div>
       </div>
       <div class="detail">
         <span>1 Connection</span>
         <span>{{flight.flight_class.capitalize()}}</span>
-        <span>{{find_airline(flight.airline_id).name}}</span>
+        <span>{{airline.name}}</span>
       </div>
     </div>
     {% endfor %}

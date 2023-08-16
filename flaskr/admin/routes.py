@@ -10,8 +10,6 @@ from flaskr.auth.routes import login_required, admin_required, super_admin_requi
 
 from flaskr.city.routes import get_all_cities
 
-from flaskr.city.routes import get_city_by_id
-
 from flaskr.airline.routes import get_airline_by_admin_id
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -30,4 +28,4 @@ def get_datas():
 @admin_bp.get('/')
 @admin_required
 def admin_index():
-    return render_template('admin/index.html', flights=g.flights, cities=g.cities, find_city=get_city_by_id, find_airline=get_airline_by_admin_id())
+    return render_template('admin/index.html', flights=g.flights, cities=g.cities, find_airline=get_airline_by_admin_id())

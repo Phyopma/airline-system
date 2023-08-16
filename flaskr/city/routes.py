@@ -20,10 +20,6 @@ def get_all_cities():
     # return render_template('/index.html', cities=cities)
 
 
-def get_city_by_id(id):
-    return db.session.get(City, id)
-
-
 @city_bp.post('/new')
 # @admin_required
 def create_city():

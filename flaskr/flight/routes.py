@@ -14,10 +14,6 @@ from flaskr.airline.routes import get_all_airlines
 
 from flaskr.models import Flight, db, City, AirLine
 
-from flaskr.city.routes import get_city_by_id
-
-from flaskr.airline.routes import get_airline_by_id
-
 from sqlalchemy import select, insert, delete
 
 
@@ -41,6 +37,9 @@ def get_all_flights():
     num_seats = request.args.get('num_seats')
     departure_time_from_input = request.args.get('departure_time')
 
+    if origin == None or destination == None or num_seats == None or departure_time_from_input == None:
+        abort(400)
+
     tmp_date = departure_time_from_input.replace(
         'T', '-').replace(':', '-').split('-')
     year, month, day, hour, minute = map(int, tmp_date)
@@ -55,49 +54,31 @@ def get_all_flights():
         print(e)
         abort(500)
 
-    return render_template('/flights/index.html', flights=searched_flights, cities=g.cities,  find_city=get_city_by_id, find_airline=get_airline_by_id, airlines=g.airlines)
+    return render_template('/flights/index.html', flights=searched_flights, cities=g.cities, airlines=g.airlines)
 
 
-# @flight_bp.get('/')
-# def get_flights_by_airline_id():
-#     error = None
-#     airline_id = request.args.get('airline_id')
-#     try:
-#         if airline_id:
-#             flights = db.session.execute(
-#                 select(Flight).filter_by(airline_id=airline_id)).scalars().all()
-#         else:
-#             flights = db.session.execute(select(Flight)).scalars().all()
-#         print(flights)
-#     except Exception as e:
-#         print(e)
-#         abort(500)
-
-#     return render_template('flights/index.html', flights=flights)
-
-
-@flight_bp.post('/search')
-def search_flights():
-    searched_flights = []
+# @flight_bp.post('/search')
+# def search_flights():
+#     searched_flights = []
     # referrer = request.referrer
-    data = request.form.to_dict()
-    tmp_date = data['departure_time'].replace(
-        'T', '-').replace(':', '-').split('-')
-    year, month, day, hour, minute = map(int, tmp_date)
-    data['departure_time'] = datetime(
-        year, month, day, hour, minute)
-    error = None
-    try:
-        searched_flights = db.session.execute(select(Flight).filter(
-            Flight.origin_city_id == data['origin'], Flight.destination_city_id == data['destination'], Flight.available_seats >= data['num_seats'], Flight.departure_time >= data['departure_time'],  Flight.departure_time >= data['departure_time'])).scalars().all()
-    except Exception as e:
-        error = e
-        print(e)
-        abort(500)
+    # data = request.form.to_dict()
+    # tmp_date = data['departure_time'].replace(
+    #     'T', '-').replace(':', '-').split('-')
+    # year, month, day, hour, minute = map(int, tmp_date)
+    # data['departure_time'] = datetime(
+    #     year, month, day, hour, minute)
+    # error = None
+    # try:
+    #     searched_flights = db.session.execute(select(Flight).filter(
+    #         Flight.origin_city_id == data['origin'], Flight.destination_city_id == data['destination'], Flight.available_seats >= data['num_seats'], Flight.departure_time >= data['departure_time'],  Flight.departure_time >= data['departure_time'])).scalars().all()
+    # except Exception as e:
+    #     error = e
+    #     print(e)
+    #     abort(500)
 # if referrer and not request.path in referrer:
 #     return redirect(referrer)
 # else:
-    return redirect(url_for('flights.get_all_flights', flights=searched_flights, cities=g.cities,  find_city=get_city_by_id, find_airline=get_airline_by_id, airlines=g.airlines))
+    # return redirect(url_for('flights.get_all_flights', flights=searched_flights, cities=g.cities, airlines=g.airlines))
 
 
 @flight_bp.post('/new')
@@ -124,7 +105,7 @@ def create_flight():
         new_flight = Flight(**data)
         db.session.add(new_flight)
         db.session.commit()
-        # print(new_flight.id)
+
         create_seats(new_flight.id, new_flight.total_seats)
 
     except Exception as e:
