@@ -1,5 +1,5 @@
 from flask import (
-    abort, Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
+    abort, Blueprint, g, redirect, render_template, request, url_for, jsonify
 )
 from datetime import datetime
 from flaskr.seat.routes import create_seats, delete_seats
@@ -7,7 +7,7 @@ from flaskr.auth.routes import login_required, admin_required, super_admin_requi
 from flaskr.city.routes import get_all_cities, get_city_by_id
 from flaskr.airline.routes import get_airline_by_id
 from flaskr.models import Flight, db, City, AirLine
-from sqlalchemy import select, insert, delete
+from sqlalchemy import select
 
 
 flight_bp = Blueprint('flights', __name__, url_prefix='/flights')
@@ -104,30 +104,6 @@ def get_flight_by_id(id):
         print(e)
         abort(500)
     return jsonify(temp)
-
-
-# @flight_bp.post('/search')
-# def search_flights():
-#     searched_flights = []
-    # referrer = request.referrer
-    # data = request.form.to_dict()
-    # tmp_date = data['departure_time'].replace(
-    #     'T', '-').replace(':', '-').split('-')
-    # year, month, day, hour, minute = map(int, tmp_date)
-    # data['departure_time'] = datetime(
-    #     year, month, day, hour, minute)
-    # error = None
-    # try:
-    #     searched_flights = db.session.execute(select(Flight).filter(
-    #         Flight.origin_city_id == data['origin'], Flight.destination_city_id == data['destination'], Flight.available_seats >= data['num_seats'], Flight.departure_time >= data['departure_time'],  Flight.departure_time >= data['departure_time'])).scalars().all()
-    # except Exception as e:
-    #     error = e
-    #     print(e)
-    #     abort(500)
-# if referrer and not request.path in referrer:
-#     return redirect(referrer)
-# else:
-    # return redirect(url_for('flights.get_all_flights', flights=searched_flights, cities=g.cities, airlines=g.airlines))
 
 
 @flight_bp.post('/new')

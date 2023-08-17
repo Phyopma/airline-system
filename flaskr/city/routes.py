@@ -1,12 +1,9 @@
 from flask import (
-    abort, Blueprint, flash, g, redirect, render_template, request, url_for
+    abort, Blueprint, g, redirect, request, url_for
 )
-
 from sqlalchemy import select
-
 from flaskr.models import db, City
-
-from flaskr.auth.routes import login_required, admin_required, super_admin_required
+from flaskr.auth.routes import admin_required
 
 city_bp = Blueprint('cities', __name__, url_prefix='/cities')
 
@@ -37,7 +34,6 @@ def create_city():
     except Exception as e:
         print("errors", e)
         abort(500)
-    # return redirect(url_for("cities.get_all_cities"))
     return "Success", 201
 
 

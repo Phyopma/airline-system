@@ -27,17 +27,28 @@
 
 <nav>
   <div class="topnav">
-    <b>SkyBookings</b>
-    {% if g.user == None %}
-    <a class="login" href="{{ url_for('auth.login') }}">Log in</a>
-    {% else %}
-    <a href="{{ url_for('auth.logout')}}" class="login">{{g.user.firstname}}</a>
-    {% endif %} {% if g.user.role == 'admin' %}
-    <a href="{{ url_for('admin.admin_index') }}" class="active">Admin Panel</a>
-    {% endif %}
-    <a class="active" href="#About">About</a>
-    <a class="active" href="#ContactUs">Contact Us</a>
-    <a class="active" href="{{ url_for('index') }}">Home</a>
+    <div id="left-nav-group">
+      <b><a id="logoText" href="{{ url_for('index') }}">SkyBookings</a></b>
+      <a id="about" class="active" href="#About">About</a>
+      <a class="active" href="#ContactUs">Contact Us</a>
+    </div>
+    <div id="right-nav-group">
+      {% if g.user == None %}
+      <a class="login" href="{{ url_for('auth.login') }}">Log in</a>
+      {% else %}
+
+      <span>Welcome back, <b>{{g.user.firstname}}</b></span>
+      {% if g.user.role == 'admin' %}
+      <a
+        id="admin-panel"
+        href="{{ url_for('admin.admin_index') }}"
+        class="active"
+        >Go to Admin Panel</a
+      >
+      {% endif %}
+      <a href="{{ url_for('auth.logout')}}" class="login">Logout</a>
+      {% endif %}
+    </div>
   </div>
 </nav>
 <section class="main_container">

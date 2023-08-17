@@ -7,50 +7,65 @@ body {
   opacity: 50;
   overflow: hidden;
 }
+
 .topnav {
-  overflow: hidden;
+  display: flex;
+  height: 47px;
+  justify-content: space-between;
+  align-items: center;
   border-radius: 10px;
-  padding: 8px;
+  padding: 8px 20px;
   background-color: white;
   opacity: 60%;
 }
+
 .topnav a.login {
   width: auto;
   border-radius: 10px;
   background-color: #2a9df1;
+  padding: 0 10px;
+  line-height: 47px;
   color: white;
-}
-.topnav a {
-  float: right;
-  display: block;
-  width: 75px;
-  color: black;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: double;
-  font-size: 15px;
-}
-.topnav b {
-  float: left;
-  display: inline;
-  color: black;
-  text-align: right;
-  padding: 14px 16px;
-  text-decoration: double;
   font-size: large;
+  height: 47px;
+  text-align: center;
 }
 
-.topnav a,
-b.active {
-  background-color: #2a9df1;
-  color: white;
+.topnav a {
   text-decoration: none;
+  color: black;
+  padding: 5px;
 }
 
-.topnav a,
-b.hover {
-  background-color: white;
-  color: black;
+#logoText {
+  font-size: x-large;
+  margin-right: 25px;
+}
+
+#about {
+  margin-right: 13px;
+}
+
+#right-nav-group {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  gap: 15px;
+}
+
+#left-nav-group {
+  display: flex;
+  align-items: center;
+}
+
+#admin-panel {
+  display: block;
+  text-align: center;
+  color: white;
+  font-weight: 500;
+  border-radius: 10px;
+  width: 90px;
+  background-color: #2a9df1;
 }
 
 h1 {

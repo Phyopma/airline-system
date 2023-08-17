@@ -10,7 +10,7 @@ airline_bp = Blueprint('airlines', __name__, url_prefix='/airlines')
 
 
 @airline_bp.route('/', methods=["GET"])
-# @super_admin_required
+@super_admin_required
 def get_all_airlines():
     error = None
     airlines = db.session.execute(select(AirLine)).scalars().all()

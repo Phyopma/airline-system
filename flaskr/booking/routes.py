@@ -1,15 +1,10 @@
 from flask import (
     abort, Blueprint, flash, g, redirect, render_template, request, url_for
 )
-
 from datetime import datetime
-
 from sqlalchemy import select, delete
-
-from flaskr.models import Booking, db, User, Flight, AirLine
-
+from flaskr.models import Booking, db
 from flaskr.seat.routes import update_seat, create_seats
-
 from flaskr.auth.routes import login_required, admin_required, super_admin_required
 booking_bp = Blueprint('bookings', __name__, url_prefix='/bookings')
 
