@@ -37,10 +37,10 @@
           <div
             class="flightbox"
             id="flight_{{flight.id}}"
-            onclick="fetch_flight_data(this)"
+            onclick="fetch_booking_data(this)"
           >
             <div class="number_price">
-              <span>{{airline.name}} - {{ flight.flight_number }}</span>
+              <span>{{ flight.flight_number }}</span>
               <span id="fee">$ {{ flight.price }}</span>
             </div>
 
@@ -72,9 +72,21 @@
       <div class="booking-container">
         <div class="flight-container-heading">
           <h3>Booking List</h3>
-          {% for booking in bookings %} {% endfor %}
         </div>
         <hr />
+        {% for booking in bookings %} {% set booked_flight = flights |
+        selectattr('id', '==', booking.flight_id) | first %}
+        <div class="bookingbox">
+          <span style="margin-right: 10px">{{ loop.index }}. </span>
+          <span
+            >Booking ID: <b>#{{ booking.id }}</b>, Flight Number:
+            <b>{{ booked_flight.flight_number }}</b>, Customer:
+            <b
+              >{{ booking.user.firstname }} {{ booking.user.secondname }}</b
+            ></span
+          >
+        </div>
+        {% endfor %}
       </div>
     </div>
     <div id="main_modal" class="modal">

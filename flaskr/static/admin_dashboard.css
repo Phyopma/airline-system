@@ -1,9 +1,7 @@
 body {
-  max-height: 100%;
   background-image: url('bg_1.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
-  opacity: 50;
   overflow: hidden;
 }
 
@@ -11,8 +9,8 @@ body {
   border-radius: 10px;
   padding: 4px 20px;
   background-color: white;
-  opacity: 60%;
   display: flex;
+  opacity: 70%;
   justify-content: space-between;
   align-items: center;
 }
@@ -80,14 +78,19 @@ input[type='submit'] {
 .booking-container {
   flex: 50;
   background-color: white;
-  opacity: 60%;
   border-radius: 10px;
   padding: 12px 21px;
+  opacity: 80%;
 }
 
 .flight-container-body {
   overflow: scroll;
   height: 72vh;
+}
+
+.booking-container {
+  overflow: scroll;
+  height: 83vh;
 }
 
 .flight-container-heading {
@@ -99,6 +102,18 @@ input[type='submit'] {
 .flight-container-heading span {
   font-size: 24px;
   font-weight: 700;
+}
+
+.bookingbox {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: wheat;
+  opacity: 80%;
+  border-radius: 10px;
+  height: auto;
+  display: flex;
+  margin-bottom: 10px;
 }
 
 .modal {
@@ -137,7 +152,7 @@ input[type='submit'] {
   color: #6e6e79;
   right: 0;
   position: absolute;
-  z-index: 100;
+  z-index: 10;
 }
 
 #modal-title {
@@ -168,13 +183,6 @@ input {
   padding: 3px;
 }
 
-#class {
-  gap: 5px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 hr {
   margin-bottom: 20px;
 }
@@ -187,7 +195,6 @@ input {
 .flightbox {
   width: 100%;
   box-sizing: border-box;
-  cursor: pointer;
   padding: 10px 10px 15px 10px;
   background-color: wheat;
   opacity: 80%;
@@ -209,36 +216,4 @@ input {
 
 .flight_info_div {
   margin: 5px;
-}
-
-#vert_line {
-  width: 1px;
-  height: 100px;
-  background-color: #ccc;
-  margin: 0 10px;
-}
-
-.dis_time {
-  /* width: 400px; */
-  justify-content: right;
-  text-align: start;
-  font-weight: bolder;
-  font-size: 16px;
-}
-
-.dis_money {
-  /* width: 60px; */
-  font-weight: bold;
-  font-size: 20px;
-  color: green;
-}
-
-.detail {
-  display: flex;
-  font-weight: 700;
-  opacity: 80%;
-  font-size: 14px;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-left: 20px;
 }

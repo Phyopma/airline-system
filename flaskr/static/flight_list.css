@@ -40,6 +40,11 @@
   padding: 10px;
 }
 
+.flight-scrolling-area {
+  overflow: scroll;
+  height: 65vh;
+}
+
 #thirdnav {
   display: flex;
   flex-direction: column;

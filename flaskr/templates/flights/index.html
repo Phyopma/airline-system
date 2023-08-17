@@ -91,50 +91,52 @@
     <h3 style="text-align: left; padding-left: 5px">
       Flights Found ({{ flights | length }})
     </h3>
-    <!-- start of tje flight box -->
-    {% for flight in flights %}
-    <!-- find origin city from cities -->
-    {% set origin_city = cities | selectattr('id', '==', flight.origin_city_id)
-    | first %}
-    <!-- find destination city from cities -->
-    {% set destination_city = cities | selectattr('id', '==',
-    flight.destination_city_id) | first %}
-    <!-- find airline from airlines -->
-    {% set airline = airlines | selectattr('id', '==', flight.airline_id) |
-    first %}
-    <div
-      class="flightbox"
-      id="flight_{{flight.id}}"
-      onclick="fetch_flight_data(this)"
-    >
-      <div class="number_price">
-        <span>{{airline.name}} - {{ flight.flight_number }}</span>
-        <span id="fee">$ {{ flight.price }}</span>
-      </div>
+    <div class="flight-scrolling-area">
+      <!-- start of tje flight box -->
+      {% for flight in flights %}
+      <!-- find origin city from cities -->
+      {% set origin_city = cities | selectattr('id', '==',
+      flight.origin_city_id) | first %}
+      <!-- find destination city from cities -->
+      {% set destination_city = cities | selectattr('id', '==',
+      flight.destination_city_id) | first %}
+      <!-- find airline from airlines -->
+      {% set airline = airlines | selectattr('id', '==', flight.airline_id) |
+      first %}
+      <div
+        class="flightbox"
+        id="flight_{{flight.id}}"
+        onclick="fetch_flight_data(this)"
+      >
+        <div class="number_price">
+          <span>{{airline.name}} - {{ flight.flight_number }}</span>
+          <span id="fee">$ {{ flight.price }}</span>
+        </div>
 
-      <div class="flight_info_div">
-        <div style="margin-bottom: 8px">
-          <span
-            >{{
-            flight.departure_time.hour}}:{{flight.departure_time.minute}}</span
-          >
-          <span>({{ origin_city.code }})</span>
-          -
-          <span
-            >{{flight.arrival_time.hour}}:{{flight.arrival_time.minute}}</span
-          >
-          <span>({{ destination_city.code }})</span>
-          <span style="float: right"
-            >Duration:
-            <b>{{ (flight.arrival_time-flight.departure_time)}}</b></span
+        <div class="flight_info_div">
+          <div style="margin-bottom: 8px">
+            <span
+              >{{
+              flight.departure_time.hour}}:{{flight.departure_time.minute}}</span
+            >
+            <span>({{ origin_city.code }})</span>
+            -
+            <span
+              >{{flight.arrival_time.hour}}:{{flight.arrival_time.minute}}</span
+            >
+            <span>({{ destination_city.code }})</span>
+            <span style="float: right"
+              >Duration:
+              <b>{{ (flight.arrival_time-flight.departure_time)}}</b></span
+            >
+          </div>
+          <span style="padding-left: 2px"
+            >Departure date: <b>{{ flight.departure_time.date() }}</b></span
           >
         </div>
-        <span style="padding-left: 2px"
-          >Departure date: <b>{{ flight.departure_time.date() }}</b></span
-        >
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
 
   <div id="thirdnav">

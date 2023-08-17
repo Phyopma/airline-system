@@ -1,5 +1,5 @@
 from flask import (
-    abort, Blueprint, flash, g, redirect, render_template, request, url_for
+    abort, Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
 )
 from datetime import datetime
 from sqlalchemy import select, delete
@@ -9,42 +9,30 @@ from flaskr.auth.routes import login_required, admin_required, super_admin_requi
 booking_bp = Blueprint('bookings', __name__, url_prefix='/bookings')
 
 
-@booking_bp.get('/')
-@login_required
-def get_bookings_for_user():
-    error = None
-    try:
-        bookings = db.session.execute(
-            select(Booking).filter(Booking.user_id == g.user.id)).scalars().all()
-    except Exception as e:
-        error = e
-        abort(500)
-    flash(error)
-
-    return render_template('/index.html', bookings=bookings)
-
-
-def get_bookings_by_flight_id(flight_id):
-    error = None
-
-    try:
-        bookings = db.session.execute(select(Booking).filter(
-            Booking.flight_id == flight_id)).scalars().all()
-    except Exception as e:
-        error = e
-        abort(500)
-    flash(error)
-
-    return render_template('/index.html', bookings=bookings)
-
-
-# def get_bookings_by_airline_id(airline_id):
+# @booking_bp.get('/')
+# @login_required
+# def get_bookings_for_user():
+#     error = None
 #     try:
-#         bookings = db.session.execute(select(Booking).filter(
-#             Booking.airline_id == airline_id)).scalars().all()
+#         bookings = db.session.execute(
+#             select(Booking).filter(Booking.user_id == g.user.id)).scalars().all()
 #     except Exception as e:
 #         error = e
 #         abort(500)
+#     flash(error)
+
+#     return render_template('/index.html', bookings=bookings)
+
+
+@booking_bp.get('/')
+def get_bookings_by_airline_id(airline_id):
+    try:
+        bookings = db.session.execute(select(Booking).filter(
+            Booking.airline_id == airline_id)).scalars().all()
+    except Exception as e:
+        print(e)
+        abort(500)
+    return bookings
 
 
 @booking_bp.post('/new')
@@ -55,6 +43,7 @@ def create_booking():
     data['user_id'] = g.user.id
     flight_id = data['flight_id']
     seat_id = data['seat_id']
+    data['airline_id'] = 1
 
     error = None
 

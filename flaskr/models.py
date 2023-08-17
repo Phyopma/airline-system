@@ -120,18 +120,19 @@ class Booking(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     flight_id = db.Column(db.Integer, db.ForeignKey(
         'flight.id'), nullable=False)
-    # airline_id = db.Column(db.Integer, db.ForeignKey(
-    #     'airline.id'), nullable=False)
+    airline_id = db.Column(db.Integer, db.ForeignKey(
+        'airline.id'), nullable=False)
     seat_id = db.Column(db.Integer, db.ForeignKey('seat.id'), nullable=False)
     booked_at = db.Column(db.DateTime, default=datetime.now())
     user = db.relationship('User', back_populates='bookings')
     # flight = db.relationship('Flight', back_populates='booking')
     # seat = db.relationship('Seat', back_populates='booking')
 
-    def __init__(self, user_id, flight_id, seat_id):
+    def __init__(self, user_id, flight_id, seat_id, airline_id):
         self.user_id = user_id
         self.flight_id = flight_id
         self.seat_id = seat_id
+        self.airline_id = airline_id
         self.booked_at = datetime.now()
 
     def __repr__(self):
