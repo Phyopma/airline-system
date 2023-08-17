@@ -96,6 +96,8 @@ def update_seat(id, flight_id, is_occupied):
     try:
         updated_flight = db.session.execute(
             select(Flight).filter(Flight.id == flight_id)).scalar_one()
+
+        print(updated_flight)
         if is_occupied and updated_flight.available_seats > 0:
             updated_flight.available_seats = updated_flight.available_seats-1
         elif not is_occupied and updated_flight.available_seats < 100:
@@ -107,5 +109,6 @@ def update_seat(id, flight_id, is_occupied):
         db.session.commit()
     except Exception as e:
         error = e
+        print("in update_seat")
         print(e)
         abort(500)

@@ -1,9 +1,8 @@
 body {
   max-height: 100%;
-  background-image: url("bg_1.jpeg");
+  background-image: url('bg_1.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
-  opacity: 50;
   overflow: hidden;
 }
 
@@ -30,7 +29,7 @@ button {
   cursor: pointer;
 }
 
-input[type="submit"] {
+input[type='submit'] {
   color: white;
   background-color: #2a9df1;
   font-size: 18px;
@@ -72,9 +71,10 @@ input[type="submit"] {
 .flight-container,
 .booking-container {
   flex: 50;
-  height: 100vh;
+  height: 82vh;
   background-color: white;
   opacity: 60%;
+  overflow: scroll;
   border-radius: 10px;
   padding: 12px 21px;
 }
@@ -180,7 +180,6 @@ input {
 .flightbox {
   padding: 10px 10px 15px 10px;
   background-color: wheat;
-  opacity: 80%;
   border-radius: 10px;
   height: auto;
   margin-bottom: 10px;

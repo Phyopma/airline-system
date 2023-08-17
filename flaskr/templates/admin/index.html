@@ -6,7 +6,8 @@
     <title>Admin Dashboard</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='admin_dashboard.css') }}" />
+      href="{{ url_for('static', filename='admin_dashboard.css') }}"
+    />
   </head>
   <body>
     <div class="topnav">
@@ -66,7 +67,10 @@
         </div>
       </div>
       <div class="booking-container">
-        <h3>Booking List</h3>
+        <div class="flight-container-heading">
+          <h3>Booking List</h3>
+        </div>
+        <hr />
       </div>
     </div>
     <div id="main_modal" class="modal">
@@ -79,7 +83,8 @@
         <form
           id="flight_create"
           action="{{ url_for('flights.create_flight' )}}"
-          method="post">
+          method="post"
+        >
           <div id="class">
             <label for="flight_class">Flight Class: </label>
             <select name="flight_class" id="flight_class">
@@ -112,7 +117,8 @@
               <input
                 type="datetime-local"
                 name="departure_time"
-                id="departure" />
+                id="departure"
+              />
             </div>
             <div class="date_time">
               <label for="arrival">Arrival Date: </label>
@@ -135,29 +141,29 @@
       </div>
     </div>
     <script>
-      var modal = document.getElementById("main_modal");
+      var modal = document.getElementById('main_modal');
 
       document
-        .getElementById("create_button")
-        .addEventListener("click", (e) => {
+        .getElementById('create_button')
+        .addEventListener('click', (e) => {
           e.preventDefault();
-          console.log("hello");
-          modal.style.display = "block";
+          console.log('hello');
+          modal.style.display = 'block';
         });
 
       document
-        .getElementById("close")
-        .addEventListener("click", () => (modal.style.display = "none"));
+        .getElementById('close')
+        .addEventListener('click', () => (modal.style.display = 'none'));
 
       document
-        .getElementById("flight_create")
-        .addEventListener("submit", (e) => {
-          modal.style.display = "none";
+        .getElementById('flight_create')
+        .addEventListener('submit', (e) => {
+          modal.style.display = 'none';
         });
 
       window.onclick = (e) => {
         if (e.target == modal) {
-          modal.style.display = "none";
+          modal.style.display = 'none';
         }
       };
     </script>

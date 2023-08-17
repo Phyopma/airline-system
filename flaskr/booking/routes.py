@@ -51,6 +51,7 @@ def create_booking():
     data['user_id'] = g.user.id
     flight_id = data['flight_id']
     seat_id = data['seat_id']
+
     error = None
 
     try:

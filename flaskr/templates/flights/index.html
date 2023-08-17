@@ -2,16 +2,17 @@
 <form
   action="{{url_for('flights.get_all_flights')}}"
   class="bottomnav"
-  method="get">
+  method="get"
+>
   <div class="radio_style">
-    
     <div>
       <input
         checked
         type="radio"
         name="trip_type"
         id="one_way"
-        value="one_way" />
+        value="one_way"
+      />
       <label for="one_way">One Way</label>
     </div>
     <div>
@@ -26,30 +27,32 @@
     <div class="form_row">
       <label for="origin">Departure:</label>
       <select required name="origin" id="origin">
-        <option value="" disabled  hidden>Departure City</option>
+        <option value="" disabled hidden>Departure City</option>
         {% for city in cities %}
-        <option value="{{city.id}}" {% if g.search_info.origin == city.id %} selected {%endif%} > {{city.name}}</option>
+        <!-- {% if g.search_info.origin == city.id %} selected {% endif %} -->
+        <option value="{{city.id}}">{{city.name}}</option>
         {% endfor %}
       </select>
     </div>
     <div class="form_row" id="departure_date">
       <label for="departure">Departure Date: </label>
       <input
-      value="{{g.search_info.departure_time_from_input}}"
+        value="{{g.search_info.departure_time_from_input}}"
         required
         type="datetime-local"
         name="departure_time"
-        id="departure" 
-        />
+        id="departure"
+      />
     </div>
   </div>
   <div class="loc_date" id="returning">
     <div class="form_row">
       <label for="destination">Arrival:</label>
       <select required name="destination" id="destination">
-        <option value="" disabled  hidden>Arrival City</option>
+        <option value="" disabled hidden>Arrival City</option>
         {% for city in cities %}
-        <option value="{{city.id}}" {% if g.search_info.destination == city.id %} selected {%endif%}>{{city.name}}</option>
+        <!-- {% if g.search_info.destination == city.id %} selected {% endif %}  -->
+        <option value="{{city.id}}">{{city.name}}</option>
         {% endfor %}
       </select>
     </div>
@@ -67,7 +70,8 @@
       min="1"
       max="100"
       placeholder="1"
-      value="{{g.search_info.num_seats}}" />
+      value="{{g.search_info.num_seats}}"
+    />
   </div>
   <input id="search_flight" type="submit" value="Search Flight" />
 </form>
@@ -132,16 +136,12 @@
   </div>
 
   <div id="thirdnav">
-    <h2 id="time">12:20 </h2>
-    <h3 id="location">LHR ---- RGN</h3>
+    <h2 style="display: inline" id="time">
+      Flight details will be displayed when you select a flight from the list!
+    </h2>
+    <h3 id="location"></h3>
 
-    <p id="details">
-      Company - Saya Gyi Airways <br />
-      Flight Number - BOEING 777-300ER <br />
-      Class - Economy <br />
-      From London Heathrow (21 : 25) <br />
-      To Yangon (18:00) <br />
-    </p>
+    <p id="details"></p>
 
     <h4 id="seat_title">Choose the seat for the trip :</h4>
     <div id="seat_position">
@@ -155,9 +155,17 @@
     <p>&#10003; Less any non-refuntable fee</p>
     <p>&#10003; No change fee</p>
     <h4 id="fee">Total fee : £1217</h4>
-    <div id="buttoncontainer">
-      <button id="bookbutton">Book the flight</button>
-    </div>
+    <form
+      id="book_form"
+      action="{{ url_for('bookings.create_booking')}}"
+      method="post"
+    >
+      <input type="hidden" id="flight_id_input" name="flight_id" />
+      <input type="hidden" id="seat_id_input" name="seat_id" />
+      <div id="buttoncontainer">
+        <input type="submit" id="bookbutton" value="Book Flight" />
+      </div>
+    </form>
     <p id="booking_footer">
       ** Baggage fees reflect the airline's standard fees based on the selected
       fare class.**
@@ -165,41 +173,58 @@
   </div>
 </div>
 <script>
+  let flight_id;
+  let seat_id;
   var fetch_flight_data = async (element) => {
-  var flight_id = element.id
-  var flight = await fetch(`http://127.0.0.1:3000/flights/${flight_id}/`)
-  flight = await flight.json()
-  console.log(flight);
-  var seat_container = document.getElementById("seat_position")
-  var count = 0;
-  flight.seats.forEach(seat => {
-    count++;
-    var tmp = document.createElement('a');
-    tmp.className = "seat"
-    tmp.id = seat.id
-    tmp.textContent = seat.seat_number
-    if (seat.is_occupied) {
-      tmp.style.background= "grey"
-      tmp.classList.add('disabled')
-    }
-    seat_container.appendChild(tmp)
-    if (count%5==0 && count%10!=0) {
-      var aisle = document.createElement('div');
-      aisle.id = "aisle";
-      seat_container.appendChild(aisle)
-    }
-    
+    flight_id = element.id;
+
+    var flight = await fetch(`${window.location.origin}/flights/${flight_id}/`);
+    flight = await flight.json();
+
+    var seat_container = document.getElementById('seat_position');
+    var count = 0;
+    flight.seats.forEach((seat) => {
+      count++;
+      var tmp = document.createElement('div');
+      tmp.className = 'seat';
+      tmp.id = `seat_${seat.id}`;
+      tmp.onclick = () => {
+        if (seat_id) {
+          const prev_selected = document.getElementById(`seat_${seat_id}`);
+          prev_selected.classList.remove('seat_selected');
+        }
+        seat_id = seat.id;
+        const cur_selected = document.getElementById(`seat_${seat_id}`);
+        cur_selected.classList.add('seat_selected');
+      };
+      tmp.textContent = seat.seat_number;
+      if (seat.is_occupied) {
+        tmp.style.background = 'grey';
+        tmp.classList.add('disabled');
+      }
+      seat_container.appendChild(tmp);
+
+      if (count % 5 == 0 && count % 10 != 0) {
+        var aisle = document.createElement('div');
+        aisle.id = 'aisle';
+        seat_container.appendChild(aisle);
+      }
+    });
+  };
+
+  document.getElementById('book_form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    flight_id_input.value = flight_id;
+    seat_id_input.value = seat_id;
+
+    e.target.submit();
   });
-  }
-  document
-    .getElementById("one_way")
-    .addEventListener(
-      "click",
-    (e) => {
-    document.getElementById("returning_date").style.display = "none";}
-    );
-  document.getElementById("roundtrip").addEventListener("click", (e) => {
-    document.getElementById("returning_date").style.display = "block";
+
+  document.getElementById('one_way').addEventListener('click', (e) => {
+    document.getElementById('returning_date').style.display = 'none';
+  });
+  document.getElementById('roundtrip').addEventListener('click', (e) => {
+    document.getElementById('returning_date').style.display = 'block';
     // document.getElementById("returning").required = true;
   });
 </script>

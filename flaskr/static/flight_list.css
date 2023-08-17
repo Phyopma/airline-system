@@ -41,20 +41,23 @@
 }
 
 #thirdnav {
+  display: flex;
+  flex-direction: column;
   background-color: white;
   border-radius: 10px;
   padding: 30px;
   flex: 55;
   opacity: 75%;
-  font-family: "verdana";
+  font-family: 'verdana';
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: auto;
   height: 65vh;
   white-space: nowrap;
 }
 
 .flightbox {
   width: 480px;
+  cursor: pointer;
   padding: 10px 10px 15px 10px;
   background-color: wheat;
   opacity: 80%;
@@ -178,6 +181,11 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+
+.seat_selected {
+  background-color: green;
 }
 
 #aisle {
