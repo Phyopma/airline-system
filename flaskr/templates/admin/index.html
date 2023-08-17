@@ -6,12 +6,11 @@
     <title>Admin Dashboard</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='admin_dashboard.css') }}"
-    />
+      href="{{ url_for('static', filename='admin_dashboard.css') }}" />
   </head>
   <body>
     <div class="topnav">
-      <h2>Admin Dashboard - {{ find_airline.name }}</h2>
+      <h2>Admin Dashboard - {{airline.name}}</h2>
       <div>
         <span>Welcome back, <b>{{ g.user.firstname }}</b></span>
         <a href="{{ url_for('auth.logout') }}">Logout</a>
@@ -26,6 +25,15 @@
         <hr />
         <div class="flight-container-body">
           {% for flight in flights %}
+          <!-- find origin city from cities -->
+          {% set origin_city = cities | selectattr('id', '==',
+          flight.origin_city_id) | first %}
+          <!-- find destination city from cities -->
+          {% set destination_city = cities | selectattr('id', '==',
+          flight.destination_city_id) | first %}
+          <!-- find airline from airlines -->
+          <!-- {% set airline = airlines | selectattr('id', '==', flight.airline_id)
+          | first %} -->
           <div class="flightbox">
             <div class="time_fee">
               <div class="dis_time">
@@ -36,11 +44,16 @@
             <hr />
             <div class="time_fee">
               <div class="dis_time">
-                {{
-                flight.departure_time.hour}}:{{flight.departure_time.minute}}({{
-                find_city(flight.origin_city_id).code }}) -
-                {{flight.arrival_time.hour}}:{{flight.arrival_time.minute}}({{
-                find_city(flight.destination_city_id).code}})
+                <span
+                  >{{
+                  flight.departure_time.hour}}:{{flight.departure_time.minute}}</span
+                >
+                <span>({{ origin_city.code }})</span>
+                -
+                <span
+                  >{{flight.arrival_time.hour}}:{{flight.arrival_time.minute}}</span
+                >
+                <span>({{ destination_city.code }})</span>
               </div>
               <div class="dis_money"></div>
             </div>
@@ -66,8 +79,7 @@
         <form
           id="flight_create"
           action="{{ url_for('flights.create_flight' )}}"
-          method="post"
-        >
+          method="post">
           <div id="class">
             <label for="flight_class">Flight Class: </label>
             <select name="flight_class" id="flight_class">
@@ -100,8 +112,7 @@
               <input
                 type="datetime-local"
                 name="departure_time"
-                id="departure"
-              />
+                id="departure" />
             </div>
             <div class="date_time">
               <label for="arrival">Arrival Date: </label>
@@ -124,29 +135,29 @@
       </div>
     </div>
     <script>
-      var modal = document.getElementById('main_modal');
+      var modal = document.getElementById("main_modal");
 
       document
-        .getElementById('create_button')
-        .addEventListener('click', (e) => {
+        .getElementById("create_button")
+        .addEventListener("click", (e) => {
           e.preventDefault();
-          console.log('hello');
-          modal.style.display = 'block';
+          console.log("hello");
+          modal.style.display = "block";
         });
 
       document
-        .getElementById('close')
-        .addEventListener('click', () => (modal.style.display = 'none'));
+        .getElementById("close")
+        .addEventListener("click", () => (modal.style.display = "none"));
 
       document
-        .getElementById('flight_create')
-        .addEventListener('submit', (e) => {
-          modal.style.display = 'none';
+        .getElementById("flight_create")
+        .addEventListener("submit", (e) => {
+          modal.style.display = "none";
         });
 
       window.onclick = (e) => {
         if (e.target == modal) {
-          modal.style.display = 'none';
+          modal.style.display = "none";
         }
       };
     </script>

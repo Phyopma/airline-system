@@ -34,7 +34,7 @@ class AirLine(db.Model):
                    unique=True, primary_key=True)
     admin_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     name = db.Column(db.String(50), nullable=False)
-    flights = db.relationship("Flight", back_populates='airline')
+    # flights = db.relationship("Flight", back_populates='airline')
     # admin = db.relationship('user', back_populates='airline')
 
     def __init__(self, admin_id, name):
@@ -75,7 +75,6 @@ class Flight(db.Model):
     arrival_time = db.Column(db.DateTime, nullable=False)
     price = db.Column(db.Float, nullable=False)
     seats = db.relationship('Seat', back_populates='flight')
-    airline = db.relationship('AirLine', back_populates='flights')
     flight_class = db.Column(db.String(20), nullable=False)
     # origin_city = db.relationship('city', back_populates='flight')
     # destination_city = db.relationship('city', back_populates='flight')
@@ -92,7 +91,7 @@ class Flight(db.Model):
         self.price = price
 
     def __repr__(self):
-        return f'<Flight {self.airline_id, self.origin_city_id, self.destination_city_id!r}>'
+        return f'<Flight {self.origin_city_id, self.destination_city_id!r}>'
 
 
 class Seat(db.Model):

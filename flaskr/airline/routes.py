@@ -17,6 +17,7 @@ def get_all_airlines():
     return render_template('airlines/index.html', airlines=airlines)
 
 
+@admin_required
 def get_airline_by_admin_id():
     return db.session.execute(
         select(AirLine).filter(AirLine.admin_id == g.user.id)).scalar()

@@ -24,30 +24,33 @@
 }
 
 #firstnav {
-  width: 200px;
   background-color: white;
+  flex: 15;
   opacity: 75%;
   border-radius: 10px;
   padding: 10px 20px;
 }
 
 #secnav {
-  width: 500px;
   background-color: white;
+  width: 500px;
+  flex: 30;
   opacity: 75%;
   border-radius: 10px;
   padding: 10px;
 }
 
 #thirdnav {
-  width: 700px;
   background-color: white;
   border-radius: 10px;
   padding: 30px;
+  flex: 55;
   opacity: 75%;
-  font-family: 'verdana';
-  overflow: scroll;
+  font-family: "verdana";
+  overflow-y: scroll;
+  overflow-x: hidden;
   height: 65vh;
+  white-space: nowrap;
 }
 
 .flightbox {
@@ -156,12 +159,14 @@ hr {
 }
 
 #seat_position {
+  grid-template-columns: repeat(11, 1fr);
   display: grid;
-  grid-template-rows: auto auto;
-  grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto;
   row-gap: 3px;
   column-gap: 3px;
   padding: 20px;
+  place-self: center;
+  place-items: center;
+  place-content: center;
 }
 
 .seat {
@@ -173,4 +178,8 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#aisle {
+  padding: 0 10px;
 }

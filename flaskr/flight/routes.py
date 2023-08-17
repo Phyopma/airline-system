@@ -1,6 +1,7 @@
 from flask import (
-    abort, Blueprint, flash, g, redirect, render_template, request, url_for
+    abort, Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
 )
+
 
 from datetime import datetime
 
@@ -32,10 +33,20 @@ def get_datas():
 
 @flight_bp.get('/')
 def get_all_flights():
+    g.search_info = {}
+    trip_type = request.args.get('trip_type')
     origin = request.args.get('origin')
     destination = request.args.get('destination')
     num_seats = request.args.get('num_seats')
     departure_time_from_input = request.args.get('departure_time')
+    g.search_info['trip_type'] = trip_type
+    g.search_info['origin'] = int(origin)
+    g.search_info['destination'] = int(destination)
+    g.search_info['num_seats'] = num_seats
+    g.search_info['departure_time_from_input'] = departure_time_from_input
+    if trip_type == "roundtrip":
+        arrival_time_from_input = request.args.get('arrival_time')
+        g.search_info['arrival_time_from_input'] = arrival_time_from_input
 
     if origin == None or destination == None or num_seats == None or departure_time_from_input == None:
         abort(400)
@@ -55,6 +66,40 @@ def get_all_flights():
         abort(500)
 
     return render_template('/flights/index.html', flights=searched_flights, cities=g.cities, airlines=g.airlines)
+
+
+# @admin_required
+def get_flights_by_airline_id(airline_id):
+    try:
+        flights = db.session.execute(select(Flight).filter(
+            Flight.airline_id == airline_id)).scalars().all()
+    except Exception as e:
+        print(e)
+        abort(500)
+    return flights
+
+
+@flight_bp.get('/<int:id>/')
+def get_flight_by_id(id):
+    try:
+        flight = db.session.get(Flight, id)
+        temp = {}
+        temp['id'] = flight.id
+        temp["airline_id"] = flight.airline_id
+        temp["arrival_time"] = flight.arrival_time
+        temp["available_seats"] = flight.available_seats
+        temp["departure"] = flight.departure_time
+        temp["total_seats"] = flight.total_seats
+        temp["price"] = flight.price
+        temp["flight_class"] = flight.flight_class
+        temp["departure_time"] = flight.departure_time
+        temp["seats"] = [{"id": seat.id, "flight_id": seat.flight_id,
+                          "seat_number": seat.seat_number, "is_occupied": seat.is_occupied} for seat in flight.seats]
+
+    except Exception as e:
+        print(e)
+        abort(500)
+    return jsonify(temp)
 
 
 # @flight_bp.post('/search')
@@ -135,4 +180,4 @@ def delete_flight(id):
         print(e)
         abort(500)
 
-    return redirect(url_for("flights.get_all_flights"))
+    # return redirect(url_for("flights.get_all_flights"))

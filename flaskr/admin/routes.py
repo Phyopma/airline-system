@@ -12,6 +12,8 @@ from flaskr.city.routes import get_all_cities
 
 from flaskr.airline.routes import get_airline_by_admin_id
 
+from flaskr.flight.routes import get_flights_by_airline_id
+
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
@@ -19,8 +21,6 @@ admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 def get_datas():
     try:
         g.cities = get_all_cities()
-        g.airlines = db.session.execute(select(AirLine)).scalars().all()
-        g.flights = db.session.execute(select(Flight)).scalars().all()
     except Exception as e:
         abort(500)
 
@@ -28,4 +28,6 @@ def get_datas():
 @admin_bp.get('/')
 @admin_required
 def admin_index():
-    return render_template('admin/index.html', flights=g.flights, cities=g.cities, find_airline=get_airline_by_admin_id())
+    airline = get_airline_by_admin_id()
+    flights = get_flights_by_airline_id(airline.id)
+    return render_template('admin/index.html', flights=flights, cities=g.cities, airline=airline)

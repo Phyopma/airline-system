@@ -65,9 +65,9 @@ def create_seats(flight_id, num_seats):
     error = None
     seats = []
     letters = "ABCDEFGHIJ"
-    for i in letters:
-        for j in range(int(num_seats)//10):
-            seat_number = f'{i}{j+1}'
+    for i in range(int(num_seats)//10):
+        for j in letters:
+            seat_number = f'{j}{i+1}'
             seats.append(Seat(flight_id, seat_number))
     try:
         db.session.add_all(i for i in seats)
