@@ -27,7 +27,6 @@ with app.app_context():
     from flaskr.city.routes import get_all_cities
     db.create_all()
 
-
 app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(super_admin_bp)
@@ -48,6 +47,16 @@ def index():
 @app.route("/search")
 def search_flight():
     return render_template('search.html', cities=get_all_cities())
+
+
+@app.route("/contactus")
+def contactus():
+    return render_template('contactus.html')
+
+
+@app.route("/about")
+def about():
+    return render_template('about.html')
 
 
 @app.teardown_appcontext

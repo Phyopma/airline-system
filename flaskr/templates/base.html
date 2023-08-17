@@ -25,12 +25,19 @@
   href="{{ url_for('static', filename='flight_list.css') }}"
 />
 
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='contactus.css') }}"
+/>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}" />
+
 <nav>
   <div class="topnav">
     <div id="left-nav-group">
       <b><a id="logoText" href="{{ url_for('index') }}">SkyBookings</a></b>
-      <a id="about" class="active" href="#About">About</a>
-      <a class="active" href="#ContactUs">Contact Us</a>
+      <a id="about" class="active" href="{{ url_for('about') }}">About</a>
+      <a class="active" href="{{ url_for('contactus') }}">Contact Us</a>
     </div>
     <div id="right-nav-group">
       {% if g.user == None %}

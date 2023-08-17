@@ -1,0 +1,17 @@
+.about-container .content {
+  overflow: scroll;
+  width: auto;
+  background-color: white;
+  opacity: 80%;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid black;
+  height: 550px;
+  margin: 50px 300px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.about-container p {
+  font-size: large;
+}
