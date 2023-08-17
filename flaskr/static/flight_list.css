@@ -45,13 +45,13 @@
   flex-direction: column;
   background-color: white;
   border-radius: 10px;
-  padding: 30px;
+  padding: 20px 30px;
   flex: 55;
   opacity: 75%;
   font-family: 'verdana';
   overflow-y: scroll;
   overflow-x: auto;
-  height: 65vh;
+  height: 68vh;
   white-space: nowrap;
 }
 
@@ -156,6 +156,19 @@ select {
   width: 30%;
 }
 
+#details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 3px;
+}
+
+#price {
+  color: green;
+  font-weight: 700;
+  font-size: large;
+}
+
 hr {
   border: 1px solid darkgray;
   margin-top: 0;
@@ -184,10 +197,30 @@ hr {
   cursor: pointer;
 }
 
+#seat_section {
+  display: none;
+}
+
 .seat_selected {
   background-color: green;
 }
 
+.flight_selected {
+  border: 1.5px solid rgb(34, 108, 255);
+}
+
 #aisle {
   padding: 0 10px;
+}
+
+#message {
+  margin: auto;
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+}
+
+.time {
+  font-weight: 600;
+  font-size: large;
 }

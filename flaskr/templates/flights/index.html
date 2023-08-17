@@ -88,7 +88,9 @@
     </form>
   </div>
   <div id="secnav">
-    <h3>Cheapest Flight</h3>
+    <h3 style="text-align: left; padding-left: 5px">
+      Flights Found ({{ flights | length }})
+    </h3>
     <!-- start of tje flight box -->
     {% for flight in flights %}
     <!-- find origin city from cities -->
@@ -100,7 +102,11 @@
     <!-- find airline from airlines -->
     {% set airline = airlines | selectattr('id', '==', flight.airline_id) |
     first %}
-    <div class="flightbox" id="{{flight.id}}" onclick="fetch_flight_data(this)">
+    <div
+      class="flightbox"
+      id="flight_{{flight.id}}"
+      onclick="fetch_flight_data(this)"
+    >
       <div class="time_fee">
         <div class="dis_time">
           {{ (flight.arrival_time-flight.departure_time)}}
@@ -130,65 +136,104 @@
       </div>
     </div>
     {% endfor %}
-    <!-- end of the flight box -->
-    <!-- start of tje flight box -->
-    <!-- end of the flight box -->
   </div>
 
   <div id="thirdnav">
-    <h2 style="display: inline" id="time">
-      Flight details will be displayed when you select a flight from the list!
-    </h2>
     <h3 id="location"></h3>
 
-    <p id="details"></p>
-
-    <h4 id="seat_title">Choose the seat for the trip :</h4>
-    <div id="seat_position">
-      <!-- <a class="seat">3J</a> -->
-    </div>
-    <h4 id="Bag">Bags</h4>
-    <p>&#10003; Carry-on bags included *</p>
-
-    <p>&#10003; 1st check bag included *</p>
-    <h4>Refuntable</h4>
-    <p>&#10003; Less any non-refuntable fee</p>
-    <p>&#10003; No change fee</p>
-    <h4 id="fee">Total fee : £1217</h4>
-    <form
-      id="book_form"
-      action="{{ url_for('bookings.create_booking')}}"
-      method="post"
+    <span id="message"
+      >Flights details will be shown once you select a flight!</span
     >
-      <input type="hidden" id="flight_id_input" name="flight_id" />
-      <input type="hidden" id="seat_id_input" name="seat_id" />
-      <div id="buttoncontainer">
-        <input type="submit" id="bookbutton" value="Book Flight" />
+
+    <div id="seat_section">
+      <div id="details">
+        <span>Departure: <span id="depart_time" class="time"></span></span>
+        <span>Arrival: <span id="arrive_time" class="time"></span></span>
+        <span>Price: <span id="price"></span></span>
+        <span>Airline Company: <span id="company"></span></span>
+        <span>Total Seats: <span id="total_seats"></span></span>
+        <span>Available Seats: <span id="available_seats"></span></span>
       </div>
-    </form>
-    <p id="booking_footer">
-      ** Baggage fees reflect the airline's standard fees based on the selected
-      fare class.**
-    </p>
+      <h4 id="seat_title">Choose the seat for the trip:</h4>
+      <div id="seat_position"></div>
+      <h4 id="Bag">Bags</h4>
+      <p>&#10003; Carry-on bags included *</p>
+
+      <p>&#10003; 1st check bag included *</p>
+      <h4>Refundable</h4>
+      <p>&#10003; Less any non-refundable fee</p>
+      <p>&#10003; No change fee</p>
+      <h4 id="fee"></h4>
+      <form
+        id="book_form"
+        action="{{ url_for('bookings.create_booking')}}"
+        method="post"
+      >
+        <input type="hidden" id="flight_id_input" name="flight_id" />
+        <input type="hidden" id="seat_id_input" name="seat_id" />
+        <div id="buttoncontainer">
+          <input type="submit" id="bookbutton" value="Book Flight" />
+        </div>
+      </form>
+      <p id="booking_footer">
+        ** Baggage fees reflect the airline's standard fees based on the
+        selected fare class.**
+      </p>
+    </div>
   </div>
 </div>
 <script>
   let flight_id;
   let seat_id;
   var fetch_flight_data = async (element) => {
-    flight_id = element.id;
+    if (flight_id) {
+      const prev_selected_flight_id = document.getElementById(
+        `flight_${flight_id}`
+      );
+      prev_selected_flight_id.classList.remove('flight_selected');
+    }
+    flight_id = element.id.split('_')[1];
+    const cur_selected_flight_id = document.getElementById(
+      `flight_${flight_id}`
+    );
+    cur_selected_flight_id.classList.add('flight_selected');
 
     var flight = await fetch(`${window.location.origin}/flights/${flight_id}/`);
     flight = await flight.json();
 
     var seat_container = document.getElementById('seat_position');
-    var count = 0;
-    flight.seats.forEach((seat) => {
-      count++;
+    var seat_section = document.getElementById('seat_section');
+    var message = document.getElementById('message');
+
+    seat_section.style.display = 'block';
+    message.style.display = 'none';
+
+    seat_container.innerHTML = '';
+
+    document.getElementById(
+      'location'
+    ).textContent = `${flight.origin_city_name} (${flight.origin_city_code}) ------> ${flight.destination_city_name} (${flight.destination_city_code})`;
+
+    document.getElementById('depart_time').textContent = formatDate(
+      flight.departure_time
+    );
+    document.getElementById('arrive_time').textContent = formatDate(
+      flight.departure_time
+    );
+    document.getElementById('price').textContent = `$${flight.price}`;
+    document.getElementById('company').textContent = flight.airline_company;
+    document.getElementById('available_seats').textContent =
+      flight.available_seats;
+    document.getElementById('total_seats').textContent = flight.total_seats;
+
+    flight.seats.forEach((seat, index) => {
       var tmp = document.createElement('div');
       tmp.className = 'seat';
       tmp.id = `seat_${seat.id}`;
       tmp.onclick = () => {
+        if (seat.is_occupied) {
+          return;
+        }
         if (seat_id) {
           const prev_selected = document.getElementById(`seat_${seat_id}`);
           prev_selected.classList.remove('seat_selected');
@@ -200,17 +245,38 @@
       tmp.textContent = seat.seat_number;
       if (seat.is_occupied) {
         tmp.style.background = 'grey';
+        tmp.style.cursor = 'auto';
         tmp.classList.add('disabled');
       }
       seat_container.appendChild(tmp);
 
-      if (count % 5 == 0 && count % 10 != 0) {
+      if ((index + 1) % 5 == 0 && (index + 1) % 10 != 0) {
         var aisle = document.createElement('div');
         aisle.id = 'aisle';
         seat_container.appendChild(aisle);
       }
     });
   };
+
+  function formatDate(date) {
+    const currentDate = new Date(date);
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const day = currentDate.getDate();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+
+    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day
+      .toString()
+      .padStart(2, '0')}`;
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+    return `${formattedTime}, ${formattedDate}`;
+  }
 
   document.getElementById('book_form').addEventListener('submit', (e) => {
     e.preventDefault();

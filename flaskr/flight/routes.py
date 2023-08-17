@@ -1,20 +1,12 @@
 from flask import (
     abort, Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
 )
-
-
 from datetime import datetime
-
 from flaskr.seat.routes import create_seats, delete_seats
-
 from flaskr.auth.routes import login_required, admin_required, super_admin_required
-
-from flaskr.city.routes import get_all_cities
-
-from flaskr.airline.routes import get_all_airlines
-
+from flaskr.city.routes import get_all_cities, get_city_by_id
+from flaskr.airline.routes import get_airline_by_id
 from flaskr.models import Flight, db, City, AirLine
-
 from sqlalchemy import select, insert, delete
 
 
@@ -86,13 +78,25 @@ def get_flight_by_id(id):
         temp = {}
         temp['id'] = flight.id
         temp["airline_id"] = flight.airline_id
+        temp["airline_company"] = get_airline_by_id(flight.airline_id).name
+
         temp["arrival_time"] = flight.arrival_time
+        temp["departure_time"] = flight.departure_time
+
         temp["available_seats"] = flight.available_seats
-        temp["departure"] = flight.departure_time
         temp["total_seats"] = flight.total_seats
+
+        origin_city = get_city_by_id(flight.origin_city_id)
+        temp["origin_city_code"] = origin_city.code
+        temp["origin_city_name"] = origin_city.name
+
+        destination_city = get_city_by_id(flight.destination_city_id)
+        temp["destination_city_code"] = destination_city.code
+        temp["destination_city_name"] = destination_city.name
+
         temp["price"] = flight.price
         temp["flight_class"] = flight.flight_class
-        temp["departure_time"] = flight.departure_time
+
         temp["seats"] = [{"id": seat.id, "flight_id": seat.flight_id,
                           "seat_number": seat.seat_number, "is_occupied": seat.is_occupied} for seat in flight.seats]
 

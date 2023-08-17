@@ -2,23 +2,28 @@
 <title>{% block title %}{% endblock %} - Flaskr</title>
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='base_style.css') }}" />
+  href="{{ url_for('static', filename='base_style.css') }}"
+/>
 
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='login_style.css') }}" />
+  href="{{ url_for('static', filename='login_style.css') }}"
+/>
 
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='login_style.css') }}" />
+  href="{{ url_for('static', filename='login_style.css') }}"
+/>
 
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='book_flight.css') }}" />
+  href="{{ url_for('static', filename='book_flight.css') }}"
+/>
 
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='flight_list.css') }}" />
+  href="{{ url_for('static', filename='flight_list.css') }}"
+/>
 
 <nav>
   <div class="topnav">
@@ -37,10 +42,8 @@
 </nav>
 <section class="main_container">
   <header>{% block header %}{% endblock %}</header>
-  {% for message in get_flashed_messages() %}
+  <!-- {% for message in get_flashed_messages() %}
   <div class="flash">{{ message }}</div>
-  {% endfor %} {% block content %}{% endblock %}
+  {% endfor %}  -->
+  {% block content %}{% endblock %}
 </section>
-<footer>
-  <h6>powered by albert enterprise.</h6>
-</footer>
