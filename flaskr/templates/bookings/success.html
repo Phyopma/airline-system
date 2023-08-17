@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block title %} {% endblock %} {% block content %}
+<div
+  style="
+    width: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    text-align: center;
+    margin: 300px auto;
+    background-color: white;
+    opacity: 60%;
+    border: 1px solid rgb(47, 154, 236);
+    border-radius: 10px;
+    font-size: larger;
+    font-weight: 600;
+  "
+>
+  <span>Thank you for your booking! Your booking ID is #{{ booking.id }}</span>
+</div>
+{% endblock %}

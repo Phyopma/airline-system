@@ -33,7 +33,7 @@
     {% else %}
     <a href="{{ url_for('auth.logout')}}" class="login">{{g.user.firstname}}</a>
     {% endif %} {% if g.user.role == 'admin' %}
-    <a href="{{ url_for('admin.admin_index') }}" class="active">Admin</a>
+    <a href="{{ url_for('admin.admin_index') }}" class="active">Admin Panel</a>
     {% endif %}
     <a class="active" href="#About">About</a>
     <a class="active" href="#ContactUs">Contact Us</a>

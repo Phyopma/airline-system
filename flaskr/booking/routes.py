@@ -62,7 +62,7 @@ def create_booking():
     except Exception as e:
         print(e)
         abort(500)
-    return redirect(url_for("bookings.get_bookings_for_user"))
+    return render_template('/bookings/success.html', booking=new_booking)
 
 
 @booking_bp.route('/<int:booking_id>/delete', methods=['POST'])
