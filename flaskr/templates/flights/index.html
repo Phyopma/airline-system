@@ -107,15 +107,13 @@
       id="flight_{{flight.id}}"
       onclick="fetch_flight_data(this)"
     >
-      <div class="time_fee">
-        <div class="dis_time">
-          {{ (flight.arrival_time-flight.departure_time)}}
-        </div>
-        <div class="dis_money">$ {{flight.price}}</div>
+      <div class="number_price">
+        <span>{{airline.name}} - {{ flight.flight_number }}</span>
+        <span id="fee">$ {{ flight.price }}</span>
       </div>
-      <hr />
-      <div class="time_fee">
-        <div class="dis_time">
+
+      <div class="flight_info_div">
+        <div style="margin-bottom: 8px">
           <span
             >{{
             flight.departure_time.hour}}:{{flight.departure_time.minute}}</span
@@ -126,13 +124,14 @@
             >{{flight.arrival_time.hour}}:{{flight.arrival_time.minute}}</span
           >
           <span>({{ destination_city.code }})</span>
+          <span style="float: right"
+            >Duration:
+            <b>{{ (flight.arrival_time-flight.departure_time)}}</b></span
+          >
         </div>
-        <div class="dis_money"></div>
-      </div>
-      <div class="detail">
-        <span>1 Connection</span>
-        <span>{{flight.flight_class.capitalize()}}</span>
-        <span>{{airline.name}}</span>
+        <span style="padding-left: 2px"
+          >Departure date: <b>{{ flight.departure_time.date() }}</b></span
+        >
       </div>
     </div>
     {% endfor %}
@@ -215,6 +214,7 @@
       'location'
     ).textContent = `${flight.origin_city_name} (${flight.origin_city_code}) ------> ${flight.destination_city_name} (${flight.destination_city_code})`;
 
+    document.getElementById('flight_number').textContent = flight.flight_number;
     document.getElementById('depart_time').textContent = formatDate(
       flight.departure_time
     );

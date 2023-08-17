@@ -77,6 +77,7 @@ def get_flight_by_id(id):
         flight = db.session.get(Flight, id)
         temp = {}
         temp['id'] = flight.id
+        temp['flight_number'] = flight.flight_number
         temp["airline_id"] = flight.airline_id
         temp["airline_company"] = get_airline_by_id(flight.airline_id).name
 
@@ -95,7 +96,6 @@ def get_flight_by_id(id):
         temp["destination_city_name"] = destination_city.name
 
         temp["price"] = flight.price
-        temp["flight_class"] = flight.flight_class
 
         temp["seats"] = [{"id": seat.id, "flight_id": seat.flight_id,
                           "seat_number": seat.seat_number, "is_occupied": seat.is_occupied} for seat in flight.seats]
@@ -110,7 +110,7 @@ def get_flight_by_id(id):
 @admin_required
 def create_flight():
     data = request.form.to_dict()
-    print("in_flight_create", data)
+
     data['airline_id'] = db.first_or_404(
         select(AirLine.id).filter(AirLine.admin_id == g.user.id))
     tmp_date = data['departure_time'].replace(

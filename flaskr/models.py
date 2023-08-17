@@ -63,6 +63,7 @@ class Flight(db.Model):
     __tablename__ = 'flight'
     id = db.Column(db.Integer, primary_key=True,
                    autoincrement=True, unique=True)
+    flight_number = db.Column(db.String(50), nullable=False)
     airline_id = db.Column(db.Integer, db.ForeignKey(
         "airline.id"), nullable=False)
     origin_city_id = db.Column(db.Integer, db.ForeignKey(
@@ -75,11 +76,11 @@ class Flight(db.Model):
     arrival_time = db.Column(db.DateTime, nullable=False)
     price = db.Column(db.Float, nullable=False)
     seats = db.relationship('Seat', back_populates='flight')
-    flight_class = db.Column(db.String(20), nullable=False)
     # origin_city = db.relationship('city', back_populates='flight')
     # destination_city = db.relationship('city', back_populates='flight')
 
-    def __init__(self, airline_id, origin_city_id, destination_city_id, total_seats, available_seats, departure_time, arrival_time, price, flight_class):
+    def __init__(self, flight_number, airline_id, origin_city_id, destination_city_id, total_seats, available_seats, departure_time, arrival_time, price):
+        self.flight_number = flight_number
         self.airline_id = airline_id
         self.origin_city_id = origin_city_id
         self.destination_city_id = destination_city_id
@@ -87,7 +88,6 @@ class Flight(db.Model):
         self.available_seats = available_seats
         self.departure_time = departure_time
         self.arrival_time = arrival_time
-        self.flight_class = flight_class
         self.price = price
 
     def __repr__(self):
@@ -120,6 +120,8 @@ class Booking(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     flight_id = db.Column(db.Integer, db.ForeignKey(
         'flight.id'), nullable=False)
+    # airline_id = db.Column(db.Integer, db.ForeignKey(
+    #     'airline.id'), nullable=False)
     seat_id = db.Column(db.Integer, db.ForeignKey('seat.id'), nullable=False)
     booked_at = db.Column(db.DateTime, default=datetime.now())
     user = db.relationship('User', back_populates='bookings')

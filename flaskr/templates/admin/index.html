@@ -60,7 +60,6 @@
             </div>
             <div class="detail">
               <span>1 Connection</span>
-              <span>{{flight.flight_class.capitalize()}}</span>
             </div>
           </div>
           {% endfor %}
@@ -69,6 +68,7 @@
       <div class="booking-container">
         <div class="flight-container-heading">
           <h3>Booking List</h3>
+          {% for booking in bookings %} {% endfor %}
         </div>
         <hr />
       </div>
@@ -85,13 +85,14 @@
           action="{{ url_for('flights.create_flight' )}}"
           method="post"
         >
-          <div id="class">
-            <label for="flight_class">Flight Class: </label>
-            <select name="flight_class" id="flight_class">
-              <option value="economy">Economy</option>
-              <option value="business">Business</option>
-              <option value="premium">Premium</option>
-            </select>
+          <div class="flight_number_row">
+            <label for="flight_number">Flight number:</label>
+            <input
+              placeholder="Enter Flight Number"
+              type="text"
+              name="flight_number"
+              id="flight_number"
+            />
           </div>
           <div class="modal_data">
             <div class="location">
@@ -128,11 +129,23 @@
           <div class="modal_data">
             <div class="price_seat">
               <label for="price">Price: </label>
-              <input type="number" name="price" id="price" min="0" />
+              <input
+                placeholder="Enter Price"
+                type="number"
+                name="price"
+                id="price"
+                min="0"
+              />
             </div>
             <div class="price_seat">
               <label for="seats">Seats: </label>
-              <input type="number" name="total_seats" id="seats" min="0" />
+              <input
+                placeholder="Enter Seat Numbers"
+                type="number"
+                name="total_seats"
+                id="seats"
+                min="0"
+              />
             </div>
           </div>
           <input type="submit" value="Create" />

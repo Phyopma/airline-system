@@ -38,6 +38,15 @@ def get_bookings_by_flight_id(flight_id):
     return render_template('/index.html', bookings=bookings)
 
 
+# def get_bookings_by_airline_id(airline_id):
+#     try:
+#         bookings = db.session.execute(select(Booking).filter(
+#             Booking.airline_id == airline_id)).scalars().all()
+#     except Exception as e:
+#         error = e
+#         abort(500)
+
+
 @booking_bp.post('/new')
 @login_required
 def create_booking():

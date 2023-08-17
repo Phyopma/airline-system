@@ -66,13 +66,19 @@
   margin-bottom: 10px;
 }
 
-.time_fee {
+.number_price {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   margin: 5px;
   padding: 5px 0;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.flight_info_div {
+  margin: 5px;
 }
 
 #vert_line {
@@ -127,19 +133,13 @@ select {
   border-radius: 4px;
 }
 
-.dis_time {
-  width: 400px;
-  justify-content: right;
-  text-align: start;
-  font-weight: bolder;
-  font-size: 16px;
+#fee {
+  color: green;
 }
 
-.dis_money {
-  /* width: 60px; */
-  font-weight: bold;
-  font-size: 20px;
-  color: green;
+#flight_number {
+  font-weight: 700;
+  font-size: larger;
 }
 
 .detail {
