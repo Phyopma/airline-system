@@ -25,6 +25,7 @@
         </div>
         <hr />
         <div class="flight-container-body">
+          <!-- start of tje flight box -->
           {% for flight in flights %}
           <!-- find origin city from cities -->
           {% set origin_city = cities | selectattr('id', '==',
@@ -32,19 +33,19 @@
           <!-- find destination city from cities -->
           {% set destination_city = cities | selectattr('id', '==',
           flight.destination_city_id) | first %}
-          <!-- find airline from airlines -->
-          <!-- {% set airline = airlines | selectattr('id', '==', flight.airline_id)
-          | first %} -->
-          <div class="flightbox">
-            <div class="time_fee">
-              <div class="dis_time">
-                {{ (flight.arrival_time-flight.departure_time)}}
-              </div>
-              <div class="dis_money">$ {{flight.price}}</div>
+
+          <div
+            class="flightbox"
+            id="flight_{{flight.id}}"
+            onclick="fetch_flight_data(this)"
+          >
+            <div class="number_price">
+              <span>{{airline.name}} - {{ flight.flight_number }}</span>
+              <span id="fee">$ {{ flight.price }}</span>
             </div>
-            <hr />
-            <div class="time_fee">
-              <div class="dis_time">
+
+            <div class="flight_info_div">
+              <div style="margin-bottom: 8px">
                 <span
                   >{{
                   flight.departure_time.hour}}:{{flight.departure_time.minute}}</span
@@ -55,11 +56,14 @@
                   >{{flight.arrival_time.hour}}:{{flight.arrival_time.minute}}</span
                 >
                 <span>({{ destination_city.code }})</span>
+                <span style="float: right"
+                  >Duration:
+                  <b>{{ (flight.arrival_time-flight.departure_time)}}</b></span
+                >
               </div>
-              <div class="dis_money"></div>
-            </div>
-            <div class="detail">
-              <span>1 Connection</span>
+              <span style="padding-left: 2px"
+                >Departure date: <b>{{ flight.departure_time.date() }}</b></span
+              >
             </div>
           </div>
           {% endfor %}

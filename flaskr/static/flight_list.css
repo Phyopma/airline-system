@@ -1,6 +1,6 @@
 .bottomnav {
   border-radius: 10px;
-  padding: 8px 25px;
+  padding: 3px 25px;
   background-color: white;
   opacity: 80%;
   display: flex;
@@ -25,7 +25,7 @@
 
 #firstnav {
   background-color: white;
-  flex: 15;
+  flex: 13;
   opacity: 75%;
   border-radius: 10px;
   padding: 10px 20px;
@@ -34,7 +34,7 @@
 #secnav {
   background-color: white;
   width: 500px;
-  flex: 30;
+  flex: 28;
   opacity: 75%;
   border-radius: 10px;
   padding: 10px;
@@ -46,17 +46,18 @@
   background-color: white;
   border-radius: 10px;
   padding: 20px 30px;
-  flex: 55;
+  flex: 30;
   opacity: 75%;
   font-family: 'verdana';
   overflow-y: scroll;
   overflow-x: auto;
-  height: 68vh;
+  height: 70vh;
   white-space: nowrap;
 }
 
 .flightbox {
-  width: 480px;
+  width: 100%;
+  box-sizing: border-box;
   cursor: pointer;
   padding: 10px 10px 15px 10px;
   background-color: wheat;
@@ -83,9 +84,9 @@
 
 #vert_line {
   width: 1px;
-  height: 100px;
+  height: 80px;
   background-color: #ccc;
-  margin: 0 10px;
+  margin: 8px 10px;
 }
 
 .radio_style {

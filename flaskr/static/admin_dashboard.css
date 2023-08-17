@@ -3,6 +3,7 @@ body {
   background-image: url('bg_1.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
+  opacity: 50;
   overflow: hidden;
 }
 
@@ -184,20 +185,30 @@ input {
 }
 
 .flightbox {
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
   padding: 10px 10px 15px 10px;
   background-color: wheat;
+  opacity: 80%;
   border-radius: 10px;
   height: auto;
   margin-bottom: 10px;
 }
 
-.time_fee {
+.number_price {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   margin: 5px;
   padding: 5px 0;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.flight_info_div {
+  margin: 5px;
 }
 
 #vert_line {
