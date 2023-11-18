@@ -39,5 +39,12 @@ This project is an Air Flight Ticket System built using Flask and SQLAlchemy. It
    flask run
 
 5. Access the application in your browser: http://localhost:5000
-6. 
+
+## Usage
+
+1. Create an account or log in if you already have one.
+2. Explore available flights and transit options.
+3. Purchase tickets for your desired flights.
+4. Use the range search feature to filter flights based on days, price, and destination.
+
 
